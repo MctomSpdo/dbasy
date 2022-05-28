@@ -8,5 +8,6 @@ module com.mctom.dbasy {
     exports com.mctom.dbasy;
     exports com.mctom.dbasy.ui;
     exports com.mctom.dbasy.db;
+    exports com.mctom.dbasy.ui.connect;
     opens com.mctom.dbasy.ui to javafx.fxml;
 }
