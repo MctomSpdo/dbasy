@@ -9,8 +9,11 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        MainController c = new MainController();
-        c.show(stage);
+        var resources = new Resources();
+
+        //show new controller:
+        var controller = new MainController(resources);
+        controller.show(stage);
     }
 
     public static void main(String[] args) {
