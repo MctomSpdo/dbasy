@@ -35,9 +35,9 @@ public class MainController {
     }
 
     public void show(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainController.class.getResource("main-view.fxml"));
+        var fxmlLoader = new FXMLLoader(MainController.class.getResource("main-view.fxml"));
         fxmlLoader.setController(this);
-        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+        var scene = new Scene(fxmlLoader.load(), 800, 600);
         stage.setTitle("DBasy");
         stage.setScene(scene);
         stage.show();

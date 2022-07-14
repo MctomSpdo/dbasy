@@ -1,5 +1,9 @@
 package com.example.dbasy;
 
+import com.example.dbasy.database.ConnectionDetails;
+import com.example.dbasy.database.Database;
+import com.example.dbasy.database.invalid.InvalidDatabase;
+import com.example.dbasy.ui.ConnectController;
 import com.example.dbasy.ui.MainController;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -8,8 +12,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class Main extends Application {
+    public static Resources RESOURCES;
     @Override
     public void start(Stage stage) throws IOException {
         //start logger:
@@ -18,10 +24,25 @@ public class Main extends Application {
 
         //add to resources:
         var resources = new Resources(logger);
+        Main.RESOURCES = resources;
 
         //show in console to start application:
         logger.info("Starting application");
 
+        //prepare Databases:
+        Database.addDatabases();
+
+        //user Database dialog:
+        var connectController = new ConnectController();
+        var db = connectController.showDialog();
+        if(!(db instanceof InvalidDatabase)) {
+            resources.connections.add(db);
+            try {
+                db.connect();
+            } catch (SQLException e) {
+                logger.info("Default connection failed: ", e);
+            }
+        }
         //show new controller:
         var controller = new MainController(resources);
         controller.show(stage);
