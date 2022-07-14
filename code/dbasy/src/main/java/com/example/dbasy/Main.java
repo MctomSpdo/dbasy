@@ -15,7 +15,8 @@ public class Main extends Application {
         var resources = new Resources();
 
         Logger logger = LogManager.getLogger(Resources.class);
-        logger.info("Logger started");
+        System.out.println(Resources.class.getResource("log4j2.xml"));
+        logger.error("Logger started");
 
         //show new controller:
         var controller = new MainController(resources);
