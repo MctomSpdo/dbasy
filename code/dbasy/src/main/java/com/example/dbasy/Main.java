@@ -12,11 +12,15 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        var resources = new Resources();
+        //start logger:
+        Logger logger = LogManager.getLogger(Main.class);
+        logger.debug("Logger started");
 
-        Logger logger = LogManager.getLogger(Resources.class);
-        System.out.println(Resources.class.getResource("log4j2.xml"));
-        logger.error("Logger started");
+        //add to resources:
+        var resources = new Resources(logger);
+
+        //show in console to start application:
+        logger.info("Starting application");
 
         //show new controller:
         var controller = new MainController(resources);
