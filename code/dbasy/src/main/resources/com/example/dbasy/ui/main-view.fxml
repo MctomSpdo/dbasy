@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="root" alignment="TOP_CENTER" minHeight="600.0" minWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/18">
+<VBox fx:id="root" alignment="TOP_CENTER" minHeight="600.0" minWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <MenuBar fx:id="mbMain">
             <menus>
@@ -21,6 +21,16 @@
                         <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
+            <Menu mnemonicParsing="false" text="Connection">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#cmConnNewConn" text="New Connection" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="View">
+              <items>
+                <MenuItem mnemonicParsing="false" onAction="#viewRefreshTree" text="Refresh Tree" />
+              </items>
+            </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Delete" />
@@ -52,7 +62,7 @@
                 </SplitPane>
                 <VBox>
                     <children>
-                        <TabPane fx:id="tbResults" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane fx:id="tbResults" prefWidth="898.0" tabClosingPolicy="UNAVAILABLE">
                             <tabs>
                                 <Tab fx:id="tabConsole" text="Console">
                                     <content>
