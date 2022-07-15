@@ -1,6 +1,7 @@
 package com.example.dbasy.database;
 
 public class ConnectionDetails {
+    public String name;
     public String host;
     public int port;
     public String database;
@@ -17,12 +18,14 @@ public class ConnectionDetails {
         this.database = database;
         this.username = username;
         this.password = password;
+        this.name = database + "@" + host;
     }
 
     public ConnectionDetails(String host, int port, String database) {
         this.host = host;
         this.port = port;
         this.database = database;
+        this.name = database + "@" + host;
     }
 
     public ConnectionDetails(boolean isValid) {

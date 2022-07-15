@@ -14,7 +14,7 @@ public class MySQLDatabase extends Database {
 
     @Override
     public String toString() {
-        return "MySQL";
+        return this.details.name;
     }
 
     @Override

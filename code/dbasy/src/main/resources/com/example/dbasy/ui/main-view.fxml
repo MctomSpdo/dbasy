@@ -48,16 +48,15 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <SplitPane dividerPositions="0.5" orientation="VERTICAL">
+        <SplitPane dividerPositions="0.7" orientation="VERTICAL">
             <items>
-                <SplitPane dividerPositions="0.5">
+                <SplitPane dividerPositions="0.25">
                     <items>
+                          <TreeView fx:id="trDatabases" />
                         <VBox>
-                            <children>
-                                <TreeView fx:id="trDatabases" />
-                            </children>
-                        </VBox>
-                        <VBox />
+                     <children>
+                        <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" />
+                     </children></VBox>
                     </items>
                 </SplitPane>
                 <VBox>

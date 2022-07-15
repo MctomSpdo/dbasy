@@ -1,10 +1,7 @@
 package com.example.dbasy.ui;
 
 import com.example.dbasy.Resources;
-import com.example.dbasy.database.Table;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,7 +13,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.EventListener;
 
 public class MainController {
     Resources resources;

@@ -25,6 +25,17 @@ public abstract class Database {
     public void setDetails(ConnectionDetails details) {
         this.details = details;
     }
+
+    /**
+     * Set the name of the connection
+     * @param name Name
+     */
+    public void setName(String name) {
+        if(this.details == null) {
+            this.details = new ConnectionDetails();
+        }
+        this.details.name = name;
+    }
     //</editor-fold>
 
     //<editor-fold desc="Connect and close">
@@ -80,7 +91,9 @@ public abstract class Database {
 
     public static void addDatabases() {
         Main.RESOURCES.log.debug("Adding Database select options");
-        Resources.repoList.add(new MySQLDatabase());
+        var mySQL = new MySQLDatabase();
+        mySQL.setName("MySQL");
+        Resources.repoList.add(mySQL);
     }
 
     /**
