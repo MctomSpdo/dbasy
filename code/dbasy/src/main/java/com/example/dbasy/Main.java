@@ -6,8 +6,11 @@ import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.ui.ConnectController;
 import com.example.dbasy.ui.MainController;
 import javafx.application.Application;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.stage.Stage;
 
+import javafx.stage.WindowEvent;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
@@ -43,6 +46,21 @@ public class Main extends Application {
                 logger.info("Default connection failed: ", e);
             }
         }
+
+        //close all resources on close:
+        stage.setOnCloseRequest(windowEvent -> {
+            var connections = resources.connections;
+            connections.forEach((database) -> {
+                (new Thread(() -> {
+                    try {
+                        database.close();
+                    } catch (SQLException e) {
+                        resources.log.error("Couldn't close db: ", e);
+                    }
+                })).start();
+            });
+        });
+
         //show new controller:
         var controller = new MainController(resources);
         controller.show(stage);
