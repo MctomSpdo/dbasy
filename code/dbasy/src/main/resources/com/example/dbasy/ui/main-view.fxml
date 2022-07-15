@@ -52,10 +52,10 @@
             <items>
                 <SplitPane dividerPositions="0.25">
                     <items>
-                          <TreeView fx:id="trDatabases" />
+                          <TreeView fx:id="trDatabases" onMouseClicked="#trMouseClicked" />
                         <VBox>
                      <children>
-                        <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" />
+                        <TabPane fx:id="tbMain" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="ALL_TABS" />
                      </children></VBox>
                     </items>
                 </SplitPane>

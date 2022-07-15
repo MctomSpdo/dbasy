@@ -1,6 +1,8 @@
 package com.example.dbasy.ui;
 
 import com.example.dbasy.Resources;
+import com.example.dbasy.database.Table;
+import com.example.dbasy.ui.tab.TableTab;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -31,6 +35,9 @@ public class MainController {
 
     @FXML
     private TreeView trDatabases;
+
+    @FXML
+    private TabPane tbMain;
 
     @FXML
     public void initialize() {
@@ -58,6 +65,25 @@ public class MainController {
     @FXML
     public void viewRefreshTree(ActionEvent event) {
         refreshDBTree(false);
+    }
+
+    @FXML
+    public void trMouseClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+            if (mouseEvent.getClickCount() == 2) {
+                var list = trDatabases.getSelectionModel().getSelectedItems();
+                if(list.size() > 0) {
+                    var item = list.get(0);
+                    if(item instanceof TreeItem) {
+                        if(((TreeItem<?>) item).getValue() instanceof Table) {
+                            Table t = (Table) ((TreeItem<?>) item).getValue();
+                            var tab = new TableTab(t);
+                            tbMain.getTabs().add(tab);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public MainController(Resources resources) {
