@@ -58,7 +58,8 @@ public class MainController {
     public void refreshDBTree() {
         var databases = resources.connections;
         databases.forEach((database -> {
-            var treeItem = new TreeItem<>(database);
+            var view = new DatabaseView(database);
+            var treeItem = new TreeItem<>(view);
             treeItem.setGraphic(new ImageView(database.getUI().getIcon()));
             trDatabases.getRoot().getChildren().add(treeItem);
         }));
