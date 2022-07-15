@@ -10,8 +10,8 @@ import java.util.List;
 public class Table {
     String name;
     private Database source;
-    private List<String> headers = new ArrayList<>();
-    private List<List<String>> content = new ArrayList<>();
+    private List<String> headers = null;
+    private List<List<String>> content = null;
 
     private boolean invalid = false;
     private boolean loaded = false;
@@ -31,7 +31,7 @@ public class Table {
     }
     //</editor-fold>
 
-    //<editor-fold desc="Getter">
+    //<editor-fold desc="Getter and Setter">
     public String getName() {
         return name;
     }
@@ -40,7 +40,10 @@ public class Table {
         return source;
     }
 
-    public List<String> getHeaders() {
+    public List<String> getHeaders() throws SQLException {
+        if(headers == null) {
+            this.source.loadHeaders(this);
+        }
         return headers;
     }
 
@@ -55,7 +58,16 @@ public class Table {
     public boolean isLoaded() {
         return loaded;
     }
-    //</editor-fold>
+
+    public void setHeaders(List<String> headers) {
+        this.headers = headers;
+    }
+
+    public void setContent(List<List<String>> content) {
+        this.content = content;
+    }
+
+//</editor-fold>
 
     /**
      * Loads the Tables from the source. This does require an active Database connection

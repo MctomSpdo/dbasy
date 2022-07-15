@@ -76,6 +76,8 @@ public abstract class Database {
 
     public abstract List<Table> getTables() throws SQLException;
 
+    public abstract Table loadHeaders(Table table) throws SQLException;
+
     public static void addDatabases() {
         Main.RESOURCES.log.debug("Adding Database select options");
         Resources.repoList.add(new MySQLDatabase());

@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.EventListener;
 
 public class MainController {
     Resources resources;
@@ -89,10 +90,31 @@ public class MainController {
                                         var tableItem = new TreeItem(table);
                                         tablesItem.getChildren().add(tableItem);
                                         //children of database table:
-                                        var columnsItem = new TreeItem("columns");
+                                        var columnsItem = new TreeItem<>("columns");
                                         columnsItem.getChildren().add(UiUtil.getLoadingTreeItem());
                                         tableItem.getChildren().add(columnsItem);
                                         //TODO: load columns
+                                        columnsItem.expandedProperty().addListener((observableValue1, aBoolean1, t11) -> {
+                                            if(t11) {
+                                                var firstColumnItem = columnsItem.getChildren().get(0);
+                                                if(firstColumnItem == null || firstColumnItem.getValue().equals(UiUtil.getLoadingTreeItem().getValue())) {
+                                                    (new Thread(() -> {
+                                                        try {
+                                                            var headers = table.getHeaders();
+                                                            Platform.runLater(() -> {
+                                                                columnsItem.getChildren().clear();
+                                                                headers.forEach((header) -> {
+                                                                    var columnItem = new TreeItem<>(header);
+                                                                    columnsItem.getChildren().add(columnItem);
+                                                                });
+                                                            });
+                                                        } catch (SQLException e) {
+                                                            resources.log.error("Could not load Columns from Database: " + database, e);
+                                                        }
+                                                    })).start();
+                                                }
+                                            }
+                                        });
                                     }));
                                 });
                             } catch (SQLException e) {

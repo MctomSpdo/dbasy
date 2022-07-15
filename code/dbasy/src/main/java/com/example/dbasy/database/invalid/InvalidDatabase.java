@@ -38,4 +38,9 @@ public class InvalidDatabase extends Database {
     public List<Table> getTables() throws SQLException {
         return null;
     }
+
+    @Override
+    public Table loadHeaders(Table table) throws SQLException {
+        return null;
+    }
 }

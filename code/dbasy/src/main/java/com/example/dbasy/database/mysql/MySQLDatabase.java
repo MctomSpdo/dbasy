@@ -7,7 +7,6 @@ import com.example.dbasy.database.Table;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 
 public class MySQLDatabase extends Database {
@@ -57,5 +56,22 @@ public class MySQLDatabase extends Database {
         rs.close();
         st.close();
         return Table.getTables(names, this);
+    }
+
+    /**
+     * Loads only the headers for a given Table
+     * @param table table
+     * @return same table with headers
+     * @throws SQLException on error
+     */
+    @Override
+    public Table loadHeaders(Table table) throws SQLException {
+        var st = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        st.execute("select * from " + table.getName() + " limit 0");
+        var rs = st.getResultSet();
+        table.setHeaders(headersFromResult(rs));
+        rs.close();
+        st.close();
+        return table;
     }
 }
