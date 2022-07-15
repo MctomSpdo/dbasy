@@ -1,6 +1,7 @@
 package com.example.dbasy.ui;
 
 import com.example.dbasy.Resources;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -77,22 +78,31 @@ public class MainController {
                 if(t1 || doRefresh) {
                     var firstItem = tablesItem.getChildren().get(0);
                     if(doRefresh || firstItem == null || firstItem.getValue().equals(UiUtil.getLoadingTreeItem().getValue())) {
-                        //load Tables from Database:
-                        try {
-                            tablesItem.getChildren().clear();
-                            var tableList = database.getTables();
-                            tableList.forEach((table -> {
-                                var tableItem = new TreeItem(table);
-                                tablesItem.getChildren().add(tableItem);
-                                //children of database table:
-                                var columnsItem = new TreeItem("columns");
-                                columnsItem.getChildren().add(UiUtil.getLoadingTreeItem());
-                                tableItem.getChildren().add(columnsItem);
-                                //TODO: load columns
-                            }));
-                        } catch (SQLException e) {
-                            resources.log.error("Could not load Tables from" + database, e);
-                        }
+                        //load Tables from Database (start new Thread due to database)
+                        (new Thread(() -> {
+                            try {
+                                var tableList = database.getTables();
+                                //set tables in Tree View
+                                Platform.runLater(() -> {
+                                    tablesItem.getChildren().clear();
+                                    tableList.forEach((table -> {
+                                        var tableItem = new TreeItem(table);
+                                        tablesItem.getChildren().add(tableItem);
+                                        //children of database table:
+                                        var columnsItem = new TreeItem("columns");
+                                        columnsItem.getChildren().add(UiUtil.getLoadingTreeItem());
+                                        tableItem.getChildren().add(columnsItem);
+                                        //TODO: load columns
+                                    }));
+                                });
+                            } catch (SQLException e) {
+                                resources.log.error("Could not load Tables from" + database, e);
+                                //add error Tree Item:
+                                Platform.runLater(() -> {
+                                    tablesItem.getChildren().add(UiUtil.getErrorTreeItem());
+                                });
+                            }
+                        })).start();
                     }
                 }
             });

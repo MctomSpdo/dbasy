@@ -36,4 +36,8 @@ public class UiUtil {
     public static TreeItem getLoadingTreeItem() {
         return new TreeItem("Loading...");
     }
+
+    public static TreeItem getErrorTreeItem() {
+        return new TreeItem("Error");
+    }
 }
