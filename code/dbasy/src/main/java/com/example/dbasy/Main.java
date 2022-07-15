@@ -4,6 +4,7 @@ import com.example.dbasy.database.Database;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.ui.ConnectController;
 import com.example.dbasy.ui.MainController;
+import com.example.dbasy.ui.UiUtil;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -27,21 +28,6 @@ public class Main extends Application {
         //show in console to start application:
         logger.info("Starting application");
 
-        //prepare Databases:
-        Database.addDatabases();
-
-        //user Database dialog:
-        var connectController = new ConnectController();
-        var db = connectController.showDialog();
-        if(!(db instanceof InvalidDatabase)) {
-            resources.connections.add(db);
-            try {
-                db.connect();
-            } catch (SQLException e) {
-                logger.info("Default connection failed: ", e);
-            }
-        }
-
         //close all resources on close:
         stage.setOnCloseRequest(windowEvent -> {
             var connections = resources.connections;
@@ -55,6 +41,12 @@ public class Main extends Application {
                 })).start();
             });
         });
+
+        //prepare Databases:
+        Database.addDatabases();
+
+        //user Database dialog:
+        UiUtil.connectionDialog(resources);
 
         //show new controller:
         var controller = new MainController(resources);

@@ -174,7 +174,7 @@ public class ConnectController {
             } catch (SQLException e) {
                 Platform.runLater(() -> {
                     this.pbTest.setProgress(0);
-                    testFailure("Could not connect");
+                    testFailure("Could not connect: " + e.getMessage());
                     this.btTest.setDisable(false);
                 });
                 Main.RESOURCES.log.debug(e);
