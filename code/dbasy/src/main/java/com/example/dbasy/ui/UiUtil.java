@@ -7,6 +7,8 @@ import com.example.dbasy.database.Table;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -68,6 +70,15 @@ public class UiUtil {
                 }
             }
         });
+        //set icon:
+        columnsItem.setGraphic(getSizedImage(IconLoader.getFolder()));
         return columnsItem;
+    }
+
+    public static ImageView getSizedImage(Image image) {
+        var imageView = new ImageView(image);
+        imageView.setPreserveRatio(true);
+        imageView.setFitHeight(17);
+        return imageView;
     }
 }

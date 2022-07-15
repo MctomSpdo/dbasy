@@ -3,6 +3,7 @@ package com.example.dbasy.ui.tab;
 import com.example.dbasy.Main;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.ui.IconLoader;
+import com.example.dbasy.ui.UiUtil;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -48,6 +49,6 @@ public class TableTab extends Tab {
         var scene = new Scene(fxmlLoader.load());
         var root = scene.getRoot();
         setContent(root);
-        setGraphic(new ImageView(IconLoader.getTable()));
+        setGraphic(UiUtil.getSizedImage(IconLoader.getTable()));
     }
 }

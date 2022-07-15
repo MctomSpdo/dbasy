@@ -11,4 +11,12 @@ public class IconLoader {
         }
         return table;
     }
+
+    private static Image folder = null;
+    public static Image getFolder() {
+        if(folder == null) {
+            folder = new Image(String.valueOf(IconLoader.class.getResource("icons/folder.png")));
+        }
+        return folder;
+    }
 }

@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -110,13 +111,15 @@ public class MainController {
         databases.forEach((database -> {
             var treeItem = new TreeItem(database);
             //set values for Database icon:
-            treeItem.setGraphic(new ImageView(database.getUI().getIcon()));
+            treeItem.setGraphic(UiUtil.getSizedImage(database.getUI().getIcon()));
             treeItem.setExpanded(true);
             //set child elements:
             var dbItem = new TreeItem<>("db");
             dbItem.setExpanded(true);
             var serverItem = new TreeItem<>("Server Objects");
+            serverItem.setGraphic(UiUtil.getSizedImage(IconLoader.getFolder()));
             var tablesItem = new TreeItem<>("tables");
+            tablesItem.setGraphic(UiUtil.getSizedImage(IconLoader.getFolder()));
             tablesItem.getChildren().add(UiUtil.getLoadingTreeItem());
             tablesItem.expandedProperty().addListener((observableValue, aBoolean, t1) -> {
                 //if treeItem was opened and first element is Loading...
@@ -133,7 +136,9 @@ public class MainController {
                                         tablesItem.getChildren().clear();
                                         tableList.forEach((table -> {
                                             var tableItem = new TreeItem(table);
+                                            tableItem.setGraphic(UiUtil.getSizedImage(IconLoader.getTable()));
                                             tablesItem.getChildren().add(tableItem);
+
                                             //children of database table:
                                             var columnsItem = UiUtil.getColumnTreeItem(table);
                                             tableItem.getChildren().add(columnsItem);
