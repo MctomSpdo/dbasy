@@ -1,17 +1,12 @@
 package com.example.dbasy;
 
-import com.example.dbasy.database.ConnectionDetails;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.ui.ConnectController;
 import com.example.dbasy.ui.MainController;
 import javafx.application.Application;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.stage.Stage;
 
-import javafx.stage.WindowEvent;
-import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
@@ -22,7 +17,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         //start logger:
-        Logger logger = LogManager.getLogger(Main.class);
+        var logger = LogManager.getLogger(Main.class);
         logger.debug("Logger started");
 
         //add to resources:
