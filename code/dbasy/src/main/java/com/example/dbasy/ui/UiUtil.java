@@ -3,6 +3,7 @@ package com.example.dbasy.ui;
 import com.example.dbasy.Resources;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.invalid.InvalidDatabase;
+import javafx.scene.control.TreeItem;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -30,5 +31,9 @@ public class UiUtil {
             db = new InvalidDatabase();
         }
         return db;
+    }
+
+    public static TreeItem getLoadingTreeItem() {
+        return new TreeItem("Loading...");
     }
 }

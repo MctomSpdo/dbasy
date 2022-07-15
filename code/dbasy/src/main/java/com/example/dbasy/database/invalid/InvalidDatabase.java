@@ -3,6 +3,10 @@ package com.example.dbasy.database.invalid;
 import com.example.dbasy.database.ConnectionDetails;
 import com.example.dbasy.database.DBUI;
 import com.example.dbasy.database.Database;
+import com.example.dbasy.database.Table;
+
+import java.sql.SQLException;
+import java.util.List;
 
 public class InvalidDatabase extends Database {
     @Override
@@ -27,6 +31,11 @@ public class InvalidDatabase extends Database {
 
     @Override
     public DBUI getUI() {
+        return null;
+    }
+
+    @Override
+    public List<Table> getTables() throws SQLException {
         return null;
     }
 }

@@ -4,14 +4,14 @@ import com.example.dbasy.Main;
 import com.example.dbasy.Resources;
 import com.example.dbasy.database.mysql.MySQLDatabase;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Database {
-    private Connection conn;
-    private ConnectionDetails details;
-    private boolean active = false;
+    protected Connection conn;
+    protected ConnectionDetails details;
+    protected boolean active = false;
 
     //<editor-fold desc="Getter and Setter">
     public Connection getConn() {
@@ -74,8 +74,57 @@ public abstract class Database {
      */
     public abstract DBUI getUI();
 
+    public abstract List<Table> getTables() throws SQLException;
+
     public static void addDatabases() {
         Main.RESOURCES.log.debug("Adding Database select options");
         Resources.repoList.add(new MySQLDatabase());
+    }
+
+    /**
+     * Gets the headers from a given ResultSet
+     * @param rs ResultSet
+     * @return headers
+     * @throws SQLException on error
+     */
+    public static List<String> headersFromResult(ResultSet rs) throws SQLException {
+        var headers = new ArrayList<String>();
+        var metaData = rs.getMetaData();
+        int columns = metaData.getColumnCount();
+
+        for(int i = 1; i < columns + 1; i++) {
+            headers.add(metaData.getColumnName(i));
+        }
+        return headers;
+    }
+
+    public static List<List<String>> contentFromResult(ResultSet rs) throws SQLException {
+        try {
+            rs.last();
+        } catch (SQLException noResult) {
+            rs.close();
+            throw new IllegalArgumentException("ResultSet is empty or not scrollable");
+        }
+
+        int rowNumb = rs.getRow();
+        var rsmd = rs.getMetaData();
+        int columnS = rsmd.getColumnCount();
+
+        rs.beforeFirst();
+
+        List<List<String>> outer = new ArrayList<>();
+
+
+        int i = 0;
+        while (rs.next() && i < rowNumb && rowNumb < 100) {
+            List<String> row = new ArrayList<>();
+            for (int j = 0; j < columnS; j++) {
+                row.add(rs.getString(j + 1));
+            }
+            outer.add(row);
+            i++;
+        }
+        rs.close();
+        return outer;
     }
 }
