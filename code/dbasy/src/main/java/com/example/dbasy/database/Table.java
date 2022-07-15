@@ -3,6 +3,7 @@ package com.example.dbasy.database;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +68,10 @@ public class Table {
      * Loads the content and headers from a given ResultSet
      * @param rs ResultSet rs
      */
-    public void load(ResultSet rs) {
-        //TODO: implement later
+    public void load(ResultSet rs) throws SQLException {
+        this.loaded = true;
+        this.headers = Database.headersFromResult(rs);
+        this.content = Database.contentFromResult(rs);
     }
 
     /**
