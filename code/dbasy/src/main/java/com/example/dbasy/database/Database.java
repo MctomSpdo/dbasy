@@ -68,6 +68,12 @@ public abstract class Database {
      */
     public abstract Database getNewInstance();
 
+    /**
+     * Returns the UI Components for the Database
+     * @return UI components
+     */
+    public abstract DBUI getUI();
+
     public static void addDatabases() {
         Main.RESOURCES.log.debug("Adding Database select options");
         Resources.repoList.add(new MySQLDatabase());

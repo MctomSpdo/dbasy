@@ -1,6 +1,7 @@
 package com.example.dbasy.database.invalid;
 
 import com.example.dbasy.database.ConnectionDetails;
+import com.example.dbasy.database.DBUI;
 import com.example.dbasy.database.Database;
 
 public class InvalidDatabase extends Database {
@@ -21,6 +22,11 @@ public class InvalidDatabase extends Database {
 
     @Override
     public Database getNewInstance() {
+        return null;
+    }
+
+    @Override
+    public DBUI getUI() {
         return null;
     }
 }

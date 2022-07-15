@@ -1,9 +1,11 @@
 package com.example.dbasy.database.mysql;
 
 import com.example.dbasy.database.ConnectionDetails;
+import com.example.dbasy.database.DBUI;
 import com.example.dbasy.database.Database;
 
 public class MySQLDatabase extends Database {
+    private static final MySQLUI userInterface = new MySQLUI();
 
     @Override
     public String toString() {
@@ -29,5 +31,10 @@ public class MySQLDatabase extends Database {
     @Override
     public Database getNewInstance() {
         return new MySQLDatabase();
+    }
+
+    @Override
+    public DBUI getUI() {
+        return userInterface;
     }
 }
