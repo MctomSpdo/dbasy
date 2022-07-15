@@ -82,14 +82,14 @@ public class MainController {
         trDatabases.getRoot().getChildren().clear();
         var databases = resources.connections;
         databases.forEach((database -> {
-            var view = new DatabaseView(database);
-            var treeItem = new TreeItem(view);
+            var treeItem = new TreeItem(database);
             //set values for Database icon:
             treeItem.setGraphic(new ImageView(database.getUI().getIcon()));
             treeItem.setExpanded(true);
             //set child elements:
             var dbItem = new TreeItem<>("db");
             dbItem.setExpanded(true);
+            var serverItem = new TreeItem<>("Server Objects");
             var tablesItem = new TreeItem<>("tables");
             tablesItem.getChildren().add(UiUtil.getLoadingTreeItem());
             tablesItem.expandedProperty().addListener((observableValue, aBoolean, t1) -> {
@@ -130,6 +130,7 @@ public class MainController {
             dbItem.getChildren().add(tablesItem);
 
             treeItem.getChildren().add(dbItem);
+            treeItem.getChildren().add(serverItem);
             trDatabases.getRoot().getChildren().add(treeItem);
         }));
     }
