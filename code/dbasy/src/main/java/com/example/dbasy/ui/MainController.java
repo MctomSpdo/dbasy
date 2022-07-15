@@ -88,6 +88,7 @@ public class MainController {
                                 var columnsItem = new TreeItem("columns");
                                 columnsItem.getChildren().add(UiUtil.getLoadingTreeItem());
                                 tableItem.getChildren().add(columnsItem);
+                                //TODO: load columns
                             }));
                         } catch (SQLException e) {
                             resources.log.error("Could not load Tables from" + database, e);
