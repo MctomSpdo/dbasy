@@ -139,7 +139,12 @@ public class ConnectController {
     }
 
     private ConnectionDetails getCurrentDetails() {
-        return new ConnectionDetails(this.txtHost.getText(), Integer.parseInt(this.txtPort.getText()), this.txtSID.getText(), this.txtUsername.getText(), this.pwPassword.getText());
+        try {
+            return new ConnectionDetails(this.txtHost.getText(), Integer.parseInt(this.txtPort.getText()), this.txtSID.getText(), this.txtUsername.getText(), this.pwPassword.getText());
+        } catch (NumberFormatException ignored) {
+            return new ConnectionDetails(this.txtHost.getText(), -1, this.txtSID.getText(), this.txtUsername.getText(), this.pwPassword.getText());
+        }
+
     }
 
     //<editor-fold desc="Test Connection">

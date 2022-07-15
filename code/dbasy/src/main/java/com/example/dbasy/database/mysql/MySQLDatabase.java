@@ -23,7 +23,7 @@ public class MySQLDatabase extends Database {
         return "jdbc:mysql://" +
                 details.host +
                 ":" +
-                details.port +
+                ((details.port == -1) ? "" : details.port) +
                 "/" +
                 details.database;
     }
