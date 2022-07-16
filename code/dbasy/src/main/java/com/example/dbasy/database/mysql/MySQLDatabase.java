@@ -87,6 +87,6 @@ public class MySQLDatabase extends Database {
         pstmt.close();
 
         Main.RESOURCES.log.debug("Loaded Table: " + table.getName());
-        return null;
+        return table;
     }
 }

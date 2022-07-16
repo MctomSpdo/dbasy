@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Resources {
-    public static List<Database> repoList = new ArrayList<>();
+    public static final List<Database> repoList = new ArrayList<>();
 
     public final List<Database> connections = new ArrayList<>();
     public MainController controller;

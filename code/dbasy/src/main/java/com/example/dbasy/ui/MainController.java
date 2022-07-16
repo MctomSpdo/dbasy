@@ -9,8 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -20,7 +18,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class MainController {
-    Resources resources;
+    final Resources resources;
 
     @FXML
     private MenuBar mbMain;

@@ -4,7 +4,6 @@ import com.example.dbasy.database.invalid.InvalidDatabase;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
@@ -27,7 +26,7 @@ public class Table {
         if(!invalid) {
             throw new IllegalArgumentException("Table has to be Invalid");
         }
-        this.invalid = invalid;
+        this.invalid = true;
     }
     //</editor-fold>
 
@@ -105,7 +104,7 @@ public class Table {
 
     /**
      * Transforms a List of Strings to a List of Tables, when also given a Database as source
-     * @param tableNames List of Tablenames
+     * @param tableNames List of TableNames
      * @param source source of the List
      * @return List of Tables
      */
