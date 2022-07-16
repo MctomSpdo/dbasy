@@ -19,4 +19,13 @@ public class IconLoader {
         }
         return folder;
     }
+
+    private static Image column = null;
+
+    public static Image getColumn() {
+        if(column == null) {
+            column = new Image(String.valueOf(IconLoader.class.getResource("icons/column.png")));
+        }
+        return column;
+    }
 }

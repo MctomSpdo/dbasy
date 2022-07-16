@@ -60,6 +60,7 @@ public class UiUtil {
                                 columnsItem.getChildren().clear();
                                 headers.forEach((header) -> {
                                     var columnItem = new TreeItem<>(header);
+                                    columnItem.setGraphic(UiUtil.getSizedImage(IconLoader.getColumn()));
                                     columnsItem.getChildren().add(columnItem);
                                 });
                             });
