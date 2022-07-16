@@ -76,7 +76,7 @@ public class TableTab extends Tab {
         }
         new Thread(() -> {
             try {
-                this.table.load(100, 0);
+                this.table.load(getRowLimit(), 0);
                 //copy list to get around problems (since we are adding the headers)
                 var content = new ArrayList<>(this.table.getContent());
                 content.add(0, this.table.getHeaders());
@@ -114,5 +114,9 @@ public class TableTab extends Tab {
         this.cbRows.getItems().add("500 rows");
         this.cbRows.getItems().add("1000 rows");
         this.cbRows.getSelectionModel().select(3);
+    }
+
+    private int getRowLimit() {
+        return Integer.parseInt(((String) this.cbRows.getValue()).split(" ")[0]);
     }
 }
