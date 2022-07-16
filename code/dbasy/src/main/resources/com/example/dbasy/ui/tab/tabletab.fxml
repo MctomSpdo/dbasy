@@ -12,11 +12,11 @@
       <HBox spacing="5.0">
          <children>
             <ChoiceBox fx:id="cbRows" prefWidth="100.0" />
-            <Button fx:id="btReload" mnemonicParsing="false" text="Reload" />
-            <Button fx:id="btRemove" mnemonicParsing="false" text="Remove" />
-            <Button fx:id="btAdd" mnemonicParsing="false" text="Add" />
-            <Button mnemonicParsing="false" text="Rollback" />
-            <Button mnemonicParsing="false" text="Commit" />
+            <Button fx:id="btReload" mnemonicParsing="false" onAction="#btReloadHandler" text="Reload" />
+            <Button fx:id="btRemove" mnemonicParsing="false" onAction="#btRemoveHandler" text="Remove" />
+            <Button fx:id="btAdd" mnemonicParsing="false" onAction="#btAddHandler" text="Add" />
+            <Button mnemonicParsing="false" onAction="#btRollbackHandler" text="Rollback" />
+            <Button mnemonicParsing="false" onAction="#btCommitHandler" text="Commit" />
          </children>
          <VBox.margin>
             <Insets />

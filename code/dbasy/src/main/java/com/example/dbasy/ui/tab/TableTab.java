@@ -9,6 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -38,9 +39,35 @@ public class TableTab extends Tab {
 
     @FXML
     public void initialize() {
+        this.tvMain.setEditable(true);
         initCbRows();
         //load table content
         loadContent();
+    }
+
+    @FXML
+    void btAddHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btCommitHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btReloadHandler(ActionEvent event) {
+        loadContent();
+    }
+
+    @FXML
+    void btRemoveHandler(ActionEvent event) {
+
+    }
+
+    @FXML
+    void btRollbackHandler(ActionEvent event) {
+
     }
 
     private TableTab() {
@@ -118,5 +145,10 @@ public class TableTab extends Tab {
 
     private int getRowLimit() {
         return Integer.parseInt(((String) this.cbRows.getValue()).split(" ")[0]);
+    }
+
+    private void tvMainSetLoading() {
+        this.tvMain.getColumns().clear();
+        //TODO: implement loading sign
     }
 }
