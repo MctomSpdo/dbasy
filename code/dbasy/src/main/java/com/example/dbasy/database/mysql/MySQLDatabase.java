@@ -1,5 +1,6 @@
 package com.example.dbasy.database.mysql;
 
+import com.example.dbasy.Main;
 import com.example.dbasy.database.ConnectionDetails;
 import com.example.dbasy.database.DBUI;
 import com.example.dbasy.database.Database;
@@ -58,12 +59,6 @@ public class MySQLDatabase extends Database {
         return Table.getTables(names, this);
     }
 
-    /**
-     * Loads only the headers for a given Table
-     * @param table table
-     * @return same table with headers
-     * @throws SQLException on error
-     */
     @Override
     public Table loadHeaders(Table table) throws SQLException {
         var st = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -73,5 +68,25 @@ public class MySQLDatabase extends Database {
         rs.close();
         st.close();
         return table;
+    }
+
+    @Override
+    public Table loadTable(Table table, int limit, int offset) throws SQLException {
+        Main.RESOURCES.log.debug("Loading Table: " + table.getName());
+        var pstmt = conn.prepareStatement("select * from "+ table.getName() + " limit ? offset ?", ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        pstmt.setInt(1, limit);
+        pstmt.setInt(2, offset);
+
+        pstmt.execute();
+        var rs = pstmt.getResultSet();
+
+        table.setHeaders(headersFromResult(rs));
+        table.setContent(contentFromResult(rs));
+
+        rs.close();
+        pstmt.close();
+
+        Main.RESOURCES.log.debug("Loaded Table: " + table.getName());
+        return null;
     }
 }

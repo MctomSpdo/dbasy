@@ -1,7 +1,10 @@
 package com.example.dbasy;
 
+import com.example.dbasy.database.ConnectionDetails;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.invalid.InvalidDatabase;
+import com.example.dbasy.database.mysql.MySQLConnectUI;
+import com.example.dbasy.database.mysql.MySQLDatabase;
 import com.example.dbasy.ui.ConnectController;
 import com.example.dbasy.ui.MainController;
 import com.example.dbasy.ui.UiUtil;
@@ -46,7 +49,17 @@ public class Main extends Application {
         Database.addDatabases();
 
         //user Database dialog:
-        UiUtil.connectionDialog(resources);
+        //UiUtil.connectionDialog(resources);
+
+        try {
+            var details = new ConnectionDetails("localhost", 3306, "db", "app", "app");
+            var db = new MySQLDatabase();
+            db.setDetails(details);
+            db.connect();
+            resources.connections.add(db);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         //show new controller:
         var controller = new MainController(resources);

@@ -67,13 +67,14 @@ public class Table {
         this.content = content;
     }
 
+
 //</editor-fold>
 
     /**
      * Loads the Tables from the source. This does require an active Database connection
      */
-    public void load() {
-        //TODO: implement later
+    public void load(int limit, int offset) throws SQLException {
+        this.source.loadTable(this, limit, offset);
     }
 
     /**

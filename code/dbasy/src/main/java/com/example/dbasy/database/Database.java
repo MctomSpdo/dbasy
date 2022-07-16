@@ -87,7 +87,23 @@ public abstract class Database {
 
     public abstract List<Table> getTables() throws SQLException;
 
+    /**
+     * Loads only the headers for a given Table
+     * @param table table
+     * @return same table with headers
+     * @throws SQLException on error
+     */
     public abstract Table loadHeaders(Table table) throws SQLException;
+
+    /**
+     * Loads the Table, with the given limits and offsets
+     * @param table table to load
+     * @param limit limit
+     * @param offset offset
+     * @return loaded Table
+     * @throws SQLException on error
+     */
+    public abstract Table loadTable(Table table, int limit, int offset) throws SQLException;
 
     public static void addDatabases() {
         Main.RESOURCES.log.debug("Adding Database select options");
@@ -117,7 +133,6 @@ public abstract class Database {
         try {
             rs.last();
         } catch (SQLException noResult) {
-            rs.close();
             throw new IllegalArgumentException("ResultSet is empty or not scrollable");
         }
 
@@ -129,9 +144,8 @@ public abstract class Database {
 
         List<List<String>> outer = new ArrayList<>();
 
-
         int i = 0;
-        while (rs.next() && i < rowNumb && rowNumb < 100) {
+        while (rs.next() && i < rowNumb) {
             List<String> row = new ArrayList<>();
             for (int j = 0; j < columnS; j++) {
                 row.add(rs.getString(j + 1));
@@ -139,7 +153,6 @@ public abstract class Database {
             outer.add(row);
             i++;
         }
-        rs.close();
         return outer;
     }
 }

@@ -43,4 +43,9 @@ public class InvalidDatabase extends Database {
     public Table loadHeaders(Table table) throws SQLException {
         return null;
     }
+
+    @Override
+    public Table loadTable(Table table, int limit, int offset) throws SQLException {
+        return null;
+    }
 }
