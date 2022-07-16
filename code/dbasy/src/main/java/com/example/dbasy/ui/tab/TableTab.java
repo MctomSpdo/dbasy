@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class TableTab extends Tab {
+    //<editor-fold desc="FXML Variables">
     @FXML
     private Button btAdd;
 
@@ -35,8 +36,10 @@ public class TableTab extends Tab {
 
     @FXML
     private TableView tvMain;
+    //</editor-fold>
     private Table table;
 
+    //<editor-fold desc="FXML Functions">
     @FXML
     public void initialize() {
         this.tvMain.setEditable(true);
@@ -69,7 +72,9 @@ public class TableTab extends Tab {
     void btRollbackHandler(ActionEvent event) {
 
     }
+    //</editor-fold>
 
+    //<editor-fold desc="Constructor">
     private TableTab() {
         try {
             init();
@@ -87,8 +92,13 @@ public class TableTab extends Tab {
             Main.RESOURCES.log.error("Error loading TAB: ", e);
         }
     }
+    //</editor-fold>
 
-    public void init() throws IOException {
+    /**
+     * Loads the UserInterface from the FXML file
+     * @throws IOException if file does not exist (should not be possible)
+     */
+    private void init() throws IOException {
         var fxmlLoader = new FXMLLoader(TableTab.class.getResource("tabletab.fxml"));
         fxmlLoader.setController(this);
         var scene = new Scene(fxmlLoader.load());
@@ -97,11 +107,15 @@ public class TableTab extends Tab {
         setGraphic(UiUtil.getSizedImage(IconLoader.getTable()));
     }
 
+    /**
+     * Loads the content of the TableView (async)
+     */
     public void loadContent() {
         if (table == null) {
             throw new IllegalArgumentException("There has to be a Table!");
         }
         new Thread(() -> {
+            tvMainSetLoading();
             try {
                 this.table.load(getRowLimit(), 0);
                 //copy list to get around problems (since we are adding the headers)
@@ -143,10 +157,17 @@ public class TableTab extends Tab {
         this.cbRows.getSelectionModel().select(3);
     }
 
+    /**
+     * Gets the set RowLimit from the choice-box
+     * @return User selected Row limit
+     */
     private int getRowLimit() {
         return Integer.parseInt(((String) this.cbRows.getValue()).split(" ")[0]);
     }
 
+    /**
+     * sets a loading icon to the TableView
+     */
     private void tvMainSetLoading() {
         this.tvMain.getColumns().clear();
         //TODO: implement loading sign
