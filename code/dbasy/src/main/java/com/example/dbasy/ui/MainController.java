@@ -2,7 +2,7 @@ package com.example.dbasy.ui;
 
 import com.example.dbasy.Resources;
 import com.example.dbasy.database.Table;
-import com.example.dbasy.ui.tab.TableTab;
+import com.example.dbasy.ui.tab.table.TableTab;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

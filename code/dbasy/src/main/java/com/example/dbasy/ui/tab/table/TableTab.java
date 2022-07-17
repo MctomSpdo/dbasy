@@ -1,4 +1,4 @@
-package com.example.dbasy.ui.tab;
+package com.example.dbasy.ui.tab.table;
 
 import com.example.dbasy.Main;
 import com.example.dbasy.database.Table;
