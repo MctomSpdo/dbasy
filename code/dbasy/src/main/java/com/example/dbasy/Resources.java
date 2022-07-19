@@ -11,6 +11,7 @@ public class Resources {
     public static final List<Database> repoList = new ArrayList<>();
 
     public final List<Database> connections = new ArrayList<>();
+    public final List<Resource> resources = new ArrayList<>();
     public MainController controller;
     public final Logger log;
 

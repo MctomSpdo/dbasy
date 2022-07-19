@@ -29,6 +29,12 @@ public class Main extends Application {
 
         //close all resources on close:
         stage.setOnCloseRequest(windowEvent -> {
+            //closes resources:
+            resources.resources.forEach((resource -> {
+                (new Thread(resource::stop)).start();
+            }));
+
+            //close connections:
             var connections = resources.connections;
             connections.forEach((database) -> {
                 (new Thread(() -> {

@@ -39,6 +39,8 @@ public class MainController {
     @FXML
     private TabPane tbMain;
 
+    Scene scene;
+
     @FXML
     public void initialize() {
         resources.log.debug("Loading Main Display components");
@@ -46,9 +48,6 @@ public class MainController {
         trDatabases.setShowRoot(false);
         trDatabases.setRoot(new TreeItem());
         refreshDBTree(true);
-
-        CodeTab tab = new CodeTab(resources.connections.get(0));
-        tbMain.getTabs().add(tab);
     }
 
     /**
@@ -94,13 +93,21 @@ public class MainController {
         this.resources = resources;
     }
 
+    public Scene getScene() {
+        return scene;
+    }
+
     public void show(Stage stage) throws IOException {
         var fxmlLoader = new FXMLLoader(MainController.class.getResource("main-view.fxml"));
         fxmlLoader.setController(this);
         var scene = new Scene(fxmlLoader.load(), 800, 600);
+        this.scene = scene;
         stage.setTitle("DBasy");
         stage.setScene(scene);
         stage.show();
+
+        CodeTab tab = new CodeTab(resources.connections.get(0), this.scene);
+        tbMain.getTabs().add(tab);
     }
 
     /**
