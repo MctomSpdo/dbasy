@@ -55,7 +55,7 @@ public class UiUtil {
                 if(firstColumnItem == null || firstColumnItem.getValue().equals(UiUtil.getLoadingTreeItem().getValue())) {
                     (new Thread(() -> {
                         try {
-                            var headers = table.getHeaders();
+                            var headers = table.getAndLoadHeaders();
                             Platform.runLater(() -> {
                                 columnsItem.getChildren().clear();
                                 headers.forEach((header) -> {
