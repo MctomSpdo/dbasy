@@ -2,6 +2,7 @@ package com.example.dbasy.ui;
 
 import com.example.dbasy.Resources;
 import com.example.dbasy.database.Table;
+import com.example.dbasy.ui.tab.code.CodeTab;
 import com.example.dbasy.ui.tab.table.TableTab;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -45,6 +46,9 @@ public class MainController {
         trDatabases.setShowRoot(false);
         trDatabases.setRoot(new TreeItem());
         refreshDBTree(true);
+
+        CodeTab tab = new CodeTab(resources.connections.get(0));
+        tbMain.getTabs().add(tab);
     }
 
     /**
