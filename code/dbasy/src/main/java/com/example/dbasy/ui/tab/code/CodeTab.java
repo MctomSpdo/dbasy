@@ -86,6 +86,9 @@ public class CodeTab extends Tab implements Resource {
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         //ContextMenu:
         codeArea.setContextMenu( new CodeContextMenu() );
+        codeArea.setWrapText(true);
+        codeArea.setAutoHeight(true);
+        codeArea.setAutoScrollOnDragDesired(true);
 
         //code highlighting:
         Main.RESOURCES.log.debug("Starting highlighter for SQL");
