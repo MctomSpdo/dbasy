@@ -46,13 +46,13 @@ public class MySQLUI extends DBUI {
             "TIME_TO_SEC", "TIMEDIFF", "TIMESTAMP", "TO_DAYS", "WEEK", "WEEKDAY", "WEEKOFYEAR", "YEAR", "YEARWEEK",
             //advanced functions:
             "BIN", "BINARY", "CASE", "CAST", "COALESCE", "CONNECTION_ID", "CONV", "CONVERT", "CURRENT_USER", "DATABASE",
-            "IF", "IFNULL", "ISNULL", "LAST_INSERT_ID", "NULLIF", "SESSION_USER", "SYSTEM_USER", "USER", "VERSION",
+            "IF", "IFNULL", "ISNULL", "LAST_INSERT_ID", "NULLIF", "SESSION_USER", "SYSTEM_USER", "USER", "VERSION"
     };
 
     private static final String KEYWORD_PATTERN = "\\b(" + String.join("|", KEYWORDS) + ")\\b";
     private static final String FUNCTION_PATTERN = "\\b(" + String.join("|", FUNCTIONS) + ")\\b";
     private static final String BRACE_PATTERN = "\\{|\\}";
-    private static final String BRACKET_PATTERN = "\\[|\\]";
+    private static final String BRACKET_PATTERN = "\\(|\\)";
     private static final String SEMICOLON_PATTERN = "\\;";
     private static final String STRING_PATTERN = "'([^'\\\\]|\\\\.)*'";
     private static final String COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/";
