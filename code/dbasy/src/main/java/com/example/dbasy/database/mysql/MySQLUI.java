@@ -16,8 +16,7 @@ public class MySQLUI extends DBUI {
         return icon;
     }
 
-    //Highlighting:
-
+    //<editor-fold desc="Highlighting pattern">
     private static final String[] KEYWORDS = new String[] {
             "ADD", "ALL", "ALTER", "AND", "ANY", "AS", "ASC", "BACKUP", "BETWEEN", "BY", "CASE", "CHECK", "COLUMN",
             "CONSTRAINT", "CREATE", "DATABASE", "DEFAULT", "DELETE", "DESC", "DISTINCT", "DROP", "EXEC", "EXISTS",
@@ -70,4 +69,5 @@ public class MySQLUI extends DBUI {
     public Pattern getPattern() {
         return PATTERN;
     }
+    //</editor-fold>
 }

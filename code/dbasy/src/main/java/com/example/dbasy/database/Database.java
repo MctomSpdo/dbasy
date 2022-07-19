@@ -52,7 +52,7 @@ public abstract class Database {
     }
     //</editor-fold>
 
-
+    //<editor-fold desc="Abstract Methods">
     /**
      * Returns the name of the Database
      * @return DatabaseName
@@ -104,7 +104,11 @@ public abstract class Database {
      * @throws SQLException on error
      */
     public abstract Table loadTable(Table table, int limit, int offset) throws SQLException;
+    //</editor-fold>
 
+    /**
+     * Ads the Databases to a static list of Databases, for the user to pick one
+     */
     public static void addDatabases() {
         Main.RESOURCES.log.debug("Adding Database select options");
         var mySQL = new MySQLDatabase();
@@ -112,8 +116,9 @@ public abstract class Database {
         Resources.repoList.add(mySQL);
     }
 
+    //<editor-fold desc="Result Processing">
     /**
-     * Gets the headers from a given ResultSet
+     * Gets the headers from a given ResultSet (column names)
      * @param rs ResultSet
      * @return headers
      * @throws SQLException on error
@@ -129,6 +134,17 @@ public abstract class Database {
         return headers;
     }
 
+    /**
+     * Moves the content from a ResultSet into a 2D ArrayList
+     *
+     * The <b>first dimension</b> are the rows,
+     * The <b>second dimension</b> are the columns
+     *
+     * Be Careful, for long ResultSets this might take a while, so performing this async is best
+     * @param rs ResultSet from the Request
+     * @return 2D ArrayList of the set
+     * @throws SQLException on error
+     */
     public static List<List<String>> contentFromResult(ResultSet rs) throws SQLException {
         try {
             rs.last();
@@ -155,4 +171,5 @@ public abstract class Database {
         }
         return outer;
     }
+    //</editor-fold>
 }
