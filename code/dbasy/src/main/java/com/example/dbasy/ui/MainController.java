@@ -129,6 +129,7 @@ public class MainController {
             //set child elements:
             var dbItem = new TreeItem<>("db");
             dbItem.setExpanded(true);
+            dbItem.setGraphic(UiUtil.getSizedImage(IconLoader.getDatabase()));
             var serverItem = new TreeItem<>("Server Objects");
             serverItem.setGraphic(UiUtil.getSizedImage(IconLoader.getFolder()));
             var tablesItem = new TreeItem<>("tables");

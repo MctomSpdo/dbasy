@@ -28,4 +28,13 @@ public class IconLoader {
         }
         return column;
     }
+
+    private static Image database = null;
+
+    public static Image getDatabase() {
+        if(database == null) {
+            database = new Image(String.valueOf(IconLoader.class.getResource("icons/database.png")));
+        }
+        return database;
+    }
 }
