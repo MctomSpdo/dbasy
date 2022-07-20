@@ -52,6 +52,53 @@ public abstract class Database {
     }
     //</editor-fold>
 
+    /**
+     * Gets the Tables that are loaded in the Database
+     * @return List of Table
+     * @throws SQLException on error
+     */
+    public List<Table> getTables() throws SQLException {
+        var tables = this.conn.getMetaData().getTables(null, null, "%", new String[]{"TABLE"});
+        var tableList = new ArrayList<Table>();
+        while (tables.next()) {
+            String catalog = tables.getString("TABLE_CAT");
+            String schema = tables.getString("TABLE_SCHEM");
+            String tableName = tables.getString("TABLE_NAME");
+            var table = new Table(tableName, this);
+
+            //primary key columns:
+            try (ResultSet primaryKeys = this.conn.getMetaData().getPrimaryKeys(catalog, schema, tableName)) {
+                while (primaryKeys.next()) {
+                    var column = new Column(table, primaryKeys.getString("COLUMN_NAME"));
+                    column.keys.add(new Key(column, "", Key.Type.PRIMARY));
+                    table.addColumnsIfNotExists(column);
+                }
+            }
+
+            try (ResultSet exportedKeys = this.conn.getMetaData().getExportedKeys(catalog, schema, tableName)){
+                while(exportedKeys.next()) {
+                    var column = new Column(table, exportedKeys.getString("PKCOLUMN_NAME"));
+                    String referenceName = exportedKeys.getString("FKTABLE_NAME") + "."  + exportedKeys.getString("FKCOLUMN_NAME");
+                    column.keys.add(new Key(column,  referenceName, Key.Type.PRIMARY));
+
+                    if(!table.addColumnsIfNotExists(column)) {
+                        //TODO: just add a exported Keys reference
+                    }
+
+                    /*var metadata = exportedKeys.getMetaData();
+                    var amount = metadata.getColumnCount();
+                    for(int i = 1; i <= amount; i++) {
+                        System.out.println(metadata.getColumnName(i));
+                    }
+                    System.out.println(); */
+                }
+            }
+            // similar for exportedKeys
+            tableList.add(table);
+        }
+        return tableList;
+    }
+
     //<editor-fold desc="Abstract Methods">
     /**
      * Returns the name of the Database
@@ -84,8 +131,6 @@ public abstract class Database {
      * @return UI components
      */
     public abstract DBUI getUI();
-
-    public abstract List<Table> getTables() throws SQLException;
 
     /**
      * Loads only the headers for a given Table

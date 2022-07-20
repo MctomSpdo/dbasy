@@ -44,15 +44,17 @@ public class Table extends Result {
         return this.columns;
     }
 
-    public void addColumnsIfNotExists(Column column) {
+    public boolean addColumnsIfNotExists(Column column) {
         if(this.columns == null) {
             this.columns = new ArrayList<>();
             this.columns.add(column);
-            return;
+            return true;
         }
         if(!this.columns.contains(column)) {
             this.columns.add(column);
+            return true;
         }
+        return false;
     }
 
     public List<String> getAndLoadHeaderNames() throws SQLException {
