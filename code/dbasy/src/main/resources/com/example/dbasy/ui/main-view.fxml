@@ -61,7 +61,7 @@
                 </SplitPane>
                 <VBox>
                     <children>
-                        <TabPane fx:id="tbResults" prefWidth="898.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane fx:id="tbResults" prefWidth="898.0" tabClosingPolicy="ALL_TABS">
                             <tabs>
                                 <Tab fx:id="tabConsole" text="Console">
                                     <content>
