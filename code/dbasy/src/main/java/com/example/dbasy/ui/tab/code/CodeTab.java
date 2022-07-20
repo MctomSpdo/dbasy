@@ -5,6 +5,7 @@ import com.example.dbasy.Resource;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 
+import com.example.dbasy.ui.UiUtil;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -264,12 +265,13 @@ public class CodeTab extends Tab implements Resource {
 
     /**
      * Gets the sql for the statements that are selected
-     * @return
+     * @return selected SQL, or sql where the cursor is at
      */
     public List<String> getSelectedStatement() {
         var text = this.codeArea.getSelectedText();
         if(text.isEmpty()) {
-            text = "none";
+            var sql = UiUtil.getSqlStatementFromPosition(this.codeArea.getText(), this.codeArea.getCaretPosition()).replaceAll(";", "");
+            return List.of(sql);
         }
         return List.of(text.split(";"));
     }

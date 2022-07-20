@@ -82,4 +82,36 @@ public class UiUtil {
         imageView.setFitHeight(17);
         return imageView;
     }
+
+    /**
+     * gets an entire SQL statement from the text from the given caret position
+     *
+     * @param text  text
+     * @param caret index
+     * @return SQL statement
+     * @throws IllegalArgumentException if index < 0 or index is longer then word
+     */
+    public static String getSqlStatementFromPosition(String text, int caret) throws IllegalArgumentException {
+        if (caret > text.length() || caret < 0) {
+            throw new IllegalArgumentException();
+        }
+        StringBuilder sb = new StringBuilder();
+        char[] arr = text.toCharArray();
+
+        //add characters before the index:
+        for (int i = caret - 1; i >= 0; i--) {
+            if (arr[i] == '\n') break;
+            sb.append(arr[i]);
+        }
+        sb.reverse(); //reverse since the for loop is going in reverse direction
+
+        //add characters after index and index itself:
+        for (int i = caret; i < text.length(); i++) {
+            if (arr[i] == ';' || arr[i] == '\n') break;
+            sb.append(arr[i]);
+        }
+
+        return sb.toString();
+    }
+
 }
