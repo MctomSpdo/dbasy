@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
 import org.fxmisc.richtext.CodeArea;
@@ -19,11 +21,9 @@ import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.reactfx.Subscription;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.Duration;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -117,6 +117,9 @@ public class CodeTab extends Tab implements Resource {
             Main.RESOURCES.resources.remove(this);
             this.stop();
         });
+
+        //onKey listener:
+        codeArea.setOnKeyPressed(this::handleKeyInputs);
 
         this.codeArea = codeArea;
         this.root.getChildren().add(codeArea);
@@ -214,4 +217,60 @@ public class CodeTab extends Tab implements Resource {
         return spansBuilder.create();
     }
     //</editor-fold>
+
+    public void handleKeyInputs(KeyEvent event) {
+        if(event.isControlDown()) {
+            if(event.getCode() == KeyCode.ENTER) {
+                query();
+            }
+        }
+    }
+
+    public void query() {
+        var sql = getSelectedStatement();
+        sql.forEach((value) -> {
+            //clean up String:
+            value = value.replaceAll("\n", "").replaceAll("\t", "").trim();
+            //create requests for every String (in new Thread for efficiency, but wait till every Thread is done
+            if(!value.isEmpty()) {
+                try {
+                    String finalValue = value;
+                    var thread = new Thread(() -> {
+                        //make database request:
+                        try {
+                            var result = this.source.request(finalValue);
+
+                            //TODO: add this to a Result tab
+                            if(result != null) {
+                                System.out.println(result.getHeaders());
+                                System.out.println();
+                                System.out.println(result.getContent());
+                            } else {
+                                System.out.println("Query successful");
+                            }
+
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                    thread.start();
+                    thread.join();
+                } catch (InterruptedException e) {
+                    Main.RESOURCES.log.info("Canceled Statements: ", e);
+                }
+            }
+        });
+    }
+
+    /**
+     * Gets the sql for the statements that are selected
+     * @return
+     */
+    public List<String> getSelectedStatement() {
+        var text = this.codeArea.getSelectedText();
+        if(text.isEmpty()) {
+            text = "none";
+        }
+        return List.of(text.split(";"));
+    }
 }

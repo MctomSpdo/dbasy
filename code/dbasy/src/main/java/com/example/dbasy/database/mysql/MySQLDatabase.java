@@ -90,13 +90,19 @@ public class MySQLDatabase extends Database {
     @Override
     public Result request(String sql) throws SQLException {
         Main.RESOURCES.log.debug("Querying SQL: " + sql);
-        var stmt = this.conn.createStatement();
-        var rs = stmt.executeQuery(sql);
+        var stmt = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+        var bool = stmt.execute(sql);
+        var rs = stmt.getResultSet();
+        Result result;
 
-        var result = new Result(this, headersFromResult(rs), contentFromResult(rs));
+        if(rs != null) {
+            result = new Result(this, headersFromResult(rs), contentFromResult(rs));
+            rs.close();
+        } else {
+            result = new Result(true);
+        }
 
         stmt.close();
-        rs.close();
         return result;
     }
 }

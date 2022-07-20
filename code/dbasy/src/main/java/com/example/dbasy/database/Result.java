@@ -15,11 +15,11 @@ public class Result {
 
     }
 
-    public Result (boolean invavlid) {
+    public Result (boolean invalid) {
         if(!invalid) {
             throw new IllegalArgumentException("Table has to be Invalid");
         }
-        this.invalid = invavlid;
+        this.invalid = true;
     }
 
     public Result(Database source, List<String> headers, List<List<String>> content) {
