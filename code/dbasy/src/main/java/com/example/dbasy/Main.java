@@ -14,6 +14,10 @@ import java.sql.SQLException;
 
 public class Main extends Application {
     public static Resources RESOURCES;
+
+    private static MainController controller;
+
+
     @Override
     public void start(Stage stage) throws IOException {
         //start logger:
@@ -65,10 +69,15 @@ public class Main extends Application {
 
         //show new controller:
         var controller = new MainController(resources);
+        Main.controller = controller;
         controller.show(stage);
     }
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static MainController getController() {
+        return controller;
     }
 }

@@ -11,6 +11,8 @@ public class Result {
     protected boolean invalid = false;
     protected boolean loaded = false;
 
+    protected String statement;
+
     protected Result() {
 
     }
@@ -32,6 +34,12 @@ public class Result {
     public Result(Database source, ResultSet rs) throws SQLException {
         this(source, Database.headersFromResult(rs), Database.contentFromResult(rs));
     }
+
+    public Result(Database source, ResultSet rs, String statement) throws SQLException {
+        this(source, rs);
+        this.statement = statement;
+    }
+
 
     public Database getSource() {
         return source;

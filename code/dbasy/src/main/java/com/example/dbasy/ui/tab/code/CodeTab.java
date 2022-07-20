@@ -6,6 +6,7 @@ import com.example.dbasy.database.Database;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 
 import com.example.dbasy.ui.UiUtil;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -237,19 +238,12 @@ public class CodeTab extends Tab implements Resource {
                 try {
                     String finalValue = value;
                     var thread = new Thread(() -> {
-                        //make database request:
+                        //make database request and show result
                         try {
                             var result = this.source.request(finalValue);
-
-                            //TODO: add this to a Result tab
-                            if(result != null) {
-                                System.out.println(result.getHeaders());
-                                System.out.println();
-                                System.out.println(result.getContent());
-                            } else {
-                                System.out.println("Query successful");
-                            }
-
+                            Platform.runLater(() -> {
+                                Main.getController().addResult(result);
+                            });
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }

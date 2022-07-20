@@ -12,6 +12,7 @@ module com.example.dbasy {
     opens com.example.dbasy.ui to javafx.fxml;
     opens com.example.dbasy.ui.tab.table to javafx.fxml;
     opens com.example.dbasy.ui.tab.code to javafx.fxml;
+    opens com.example.dbasy.ui.tab.result to javafx.fxml;
 
     exports com.example.dbasy;
 

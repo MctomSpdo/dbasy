@@ -1,8 +1,10 @@
 package com.example.dbasy.ui;
 
 import com.example.dbasy.Resources;
+import com.example.dbasy.database.Result;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.ui.tab.code.CodeTab;
+import com.example.dbasy.ui.tab.result.ResultTab;
 import com.example.dbasy.ui.tab.table.TableTab;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -175,5 +177,15 @@ public class MainController {
             treeItem.getChildren().add(serverItem);
             trDatabases.getRoot().getChildren().add(treeItem);
         }));
+    }
+
+    /**
+     * Adds a Result to the View
+     * @param result Result of a Query
+     */
+    public void addResult(Result result) {
+        var tab = new ResultTab(result);
+        this.tbResults.getTabs().add(tab);
+        this.tbResults.getSelectionModel().select(tab);
     }
 }

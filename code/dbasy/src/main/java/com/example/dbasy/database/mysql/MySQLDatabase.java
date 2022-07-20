@@ -96,7 +96,7 @@ public class MySQLDatabase extends Database {
         Result result;
 
         if(rs != null) {
-            result = new Result(this, headersFromResult(rs), contentFromResult(rs));
+            result = new Result(this, rs, sql);
             rs.close();
         } else {
             result = new Result(true);
