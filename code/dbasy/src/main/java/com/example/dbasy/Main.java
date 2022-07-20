@@ -6,7 +6,6 @@ import com.example.dbasy.database.mysql.MySQLDatabase;
 import com.example.dbasy.ui.MainController;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;

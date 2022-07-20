@@ -4,7 +4,10 @@ import com.example.dbasy.Main;
 import com.example.dbasy.Resources;
 import com.example.dbasy.database.mysql.MySQLDatabase;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

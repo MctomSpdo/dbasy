@@ -4,7 +4,6 @@ import com.example.dbasy.Main;
 import com.example.dbasy.Resource;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.invalid.InvalidDatabase;
-
 import com.example.dbasy.ui.UiUtil;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -15,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.richtext.model.StyleSpans;
