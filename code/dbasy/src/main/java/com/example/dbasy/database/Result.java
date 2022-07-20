@@ -19,7 +19,7 @@ public class Result {
         if(!invalid) {
             throw new IllegalArgumentException("Table has to be Invalid");
         }
-        this.invalid = true;
+        this.invalid = invavlid;
     }
 
     public Result(Database source, List<String> headers, List<List<String>> content) {

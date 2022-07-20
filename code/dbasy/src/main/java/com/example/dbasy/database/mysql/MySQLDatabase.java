@@ -1,10 +1,7 @@
 package com.example.dbasy.database.mysql;
 
 import com.example.dbasy.Main;
-import com.example.dbasy.database.ConnectionDetails;
-import com.example.dbasy.database.DBUI;
-import com.example.dbasy.database.Database;
-import com.example.dbasy.database.Table;
+import com.example.dbasy.database.*;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -88,5 +85,18 @@ public class MySQLDatabase extends Database {
 
         Main.RESOURCES.log.debug("Loaded Table: " + table.getName());
         return table;
+    }
+
+    @Override
+    public Result request(String sql) throws SQLException {
+        Main.RESOURCES.log.debug("Querying SQL: " + sql);
+        var stmt = this.conn.createStatement();
+        var rs = stmt.executeQuery(sql);
+
+        var result = new Result(this, headersFromResult(rs), contentFromResult(rs));
+
+        stmt.close();
+        rs.close();
+        return result;
     }
 }

@@ -1,9 +1,6 @@
 package com.example.dbasy.database.invalid;
 
-import com.example.dbasy.database.ConnectionDetails;
-import com.example.dbasy.database.DBUI;
-import com.example.dbasy.database.Database;
-import com.example.dbasy.database.Table;
+import com.example.dbasy.database.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -46,6 +43,11 @@ public class InvalidDatabase extends Database {
 
     @Override
     public Table loadTable(Table table, int limit, int offset) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public Result request(String sql) {
         return null;
     }
 }

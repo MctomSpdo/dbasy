@@ -104,6 +104,8 @@ public abstract class Database {
      * @throws SQLException on error
      */
     public abstract Table loadTable(Table table, int limit, int offset) throws SQLException;
+
+    public abstract Result request(String sql) throws SQLException;
     //</editor-fold>
 
     /**
