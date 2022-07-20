@@ -81,6 +81,7 @@ public class MainController {
                             Table t = (Table) ((TreeItem<?>) item).getValue();
                             var tab = new TableTab(t);
                             tbMain.getTabs().add(tab);
+                            tbMain.getSelectionModel().select(tab);
                         }
                     }
                 }
@@ -108,6 +109,7 @@ public class MainController {
 
         CodeTab tab = new CodeTab(resources.connections.get(0), this.scene);
         tbMain.getTabs().add(tab);
+        tbMain.getSelectionModel().select(tab);
     }
 
     /**
