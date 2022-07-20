@@ -55,11 +55,11 @@ public class UiUtil {
                 if(firstColumnItem == null || firstColumnItem.getValue().equals(UiUtil.getLoadingTreeItem().getValue())) {
                     (new Thread(() -> {
                         try {
-                            var headers = table.getAndLoadHeaders();
+                            var headers = table.getAndLoadColumns();
                             Platform.runLater(() -> {
                                 columnsItem.getChildren().clear();
                                 headers.forEach((header) -> {
-                                    var columnItem = new TreeItem<>(header);
+                                    var columnItem = new TreeItem(header);
                                     columnItem.setGraphic(UiUtil.getSizedImage(IconLoader.getColumn()));
                                     columnsItem.getChildren().add(columnItem);
                                 });

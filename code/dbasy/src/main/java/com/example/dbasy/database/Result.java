@@ -2,11 +2,12 @@ package com.example.dbasy.database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Result {
     protected Database source;
-    protected List<String> headers = null;
+    protected List<Column> columns;
     protected List<List<String>> content = null;
     protected boolean invalid = false;
     protected boolean loaded = false;
@@ -24,15 +25,15 @@ public class Result {
         this.invalid = true;
     }
 
-    public Result(Database source, List<String> headers, List<List<String>> content) {
+    public Result(Database source, List<Column> columns, List<List<String>> content) {
         this.source = source;
-        this.headers = headers;
+        this.columns = columns;
         this.content = content;
         this.loaded = true;
     }
 
     public Result(Database source, ResultSet rs) throws SQLException {
-        this(source, Database.headersFromResult(rs), Database.contentFromResult(rs));
+        this(source, source.columnsFromResult(rs), Database.contentFromResult(rs));
     }
 
     public Result(Database source, ResultSet rs, String statement) throws SQLException {
@@ -45,8 +46,14 @@ public class Result {
         return source;
     }
 
-    public List<String> getHeaders() {
-        return headers;
+    public List<Column> getColumns() {
+        return columns;
+    }
+
+    public List<String> getColumnNames() {
+        var list = new ArrayList<String>();
+        this.columns.forEach((value) -> list.add(value.name));
+        return list;
     }
 
     public List<List<String>> getContent() {

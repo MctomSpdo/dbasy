@@ -102,7 +102,7 @@ public class ResultTab extends Tab {
     public void loadContent() {
         //copy list to get around problems (since we are adding the headers)
         var content = new ArrayList<>(this.result.getContent());
-        content.add(0, this.result.getHeaders());
+        content.add(0, this.result.getColumnNames());
         //copy to arraylist for javafx
         ObservableList<String[]> data = FXCollections.observableArrayList();
         content.forEach((value) -> {

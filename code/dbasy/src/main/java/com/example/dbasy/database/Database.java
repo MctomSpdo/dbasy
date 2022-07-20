@@ -118,6 +118,23 @@ public abstract class Database {
         Resources.repoList.add(mySQL);
     }
 
+    /**
+     * Gets the Columns from a given ResultSet
+     * @param rs ResultSet
+     * @return List of Columns
+     * @throws SQLException on error
+     */
+    public List<Column> columnsFromResult(ResultSet rs) throws SQLException {
+        var columns = new ArrayList<Column>();
+        var metaData = rs.getMetaData();
+        int columnCount = metaData.getColumnCount();
+
+        for(int i = 1; i < columnCount + 1; i++) {
+            columns.add(new Column(new Table(metaData.getTableName(i), true), metaData.getColumnName(i)));
+        }
+        return columns;
+    }
+
     //<editor-fold desc="Result Processing">
     /**
      * Gets the headers from a given ResultSet (column names)

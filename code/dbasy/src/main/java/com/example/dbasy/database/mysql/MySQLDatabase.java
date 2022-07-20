@@ -2,9 +2,11 @@ package com.example.dbasy.database.mysql;
 
 import com.example.dbasy.Main;
 import com.example.dbasy.database.*;
+import javafx.scene.control.Tab;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLDatabase extends Database {
@@ -43,17 +45,28 @@ public class MySQLDatabase extends Database {
 
     @Override
     public List<Table> getTables() throws SQLException {
-        var st = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        st.execute("show tables");
-        var rs = st.getResultSet();
-        var names = contentFromResult(rs)
-                        .stream()
-                        .map(list -> list.get(0))
-                        .toList();
+        var tables = this.conn.getMetaData().getTables(null, null, "%", new String[]{"TABLE"});
+        var tableList = new ArrayList<Table>();
+        while (tables.next()) {
+            String catalog = tables.getString("TABLE_CAT");
+            String schema = tables.getString("TABLE_SCHEM");
+            String tableName = tables.getString("TABLE_NAME");
+            var table = new Table(tableName, this);
 
-        rs.close();
-        st.close();
-        return Table.getTables(names, this);
+            //primary key columns:
+            try (ResultSet primaryKeys = this.conn.getMetaData().getPrimaryKeys(catalog, schema, tableName)) {
+                while (primaryKeys.next()) {
+                    var column = new Column(table, primaryKeys.getString("COLUMN_NAME"));
+                    column.keys.add(new Key(column, "", Key.Type.PRIMARY));
+                    table.addColumnsIfNotExists(column);
+                }
+            }
+            // similar for exportedKeys
+
+
+            tableList.add(table);
+        }
+        return tableList;
     }
 
     @Override
@@ -61,7 +74,7 @@ public class MySQLDatabase extends Database {
         var st = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         st.execute("select * from " + table.getName() + " limit 0");
         var rs = st.getResultSet();
-        table.setHeaders(headersFromResult(rs));
+        columnsFromResult(rs).forEach(table::addColumnsIfNotExists);
         rs.close();
         st.close();
         return table;
@@ -77,7 +90,7 @@ public class MySQLDatabase extends Database {
         pstmt.execute();
         var rs = pstmt.getResultSet();
 
-        table.setHeaders(headersFromResult(rs));
+        table.setColumns(columnsFromResult(rs));
         table.setContent(contentFromResult(rs));
 
         rs.close();

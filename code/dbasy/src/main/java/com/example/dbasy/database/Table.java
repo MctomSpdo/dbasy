@@ -2,12 +2,14 @@ package com.example.dbasy.database;
 
 import com.example.dbasy.database.invalid.InvalidDatabase;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Table extends Result {
     String name;
+    public boolean columnsLoaded = false;
 
     //<editor-fold desc="Constructor">
     public Table(String name, Database source) {
@@ -27,15 +29,37 @@ public class Table extends Result {
         return name;
     }
 
-    public void setHeaders(List<String> headers) {
-        this.headers = headers;
+    public void setColumns(List<Column> headers) {
+        this.columns = headers;
     }
 
-    public List<String> getAndLoadHeaders() throws SQLException {
-        if(headers == null) {
+    public List<Column> getAndLoadColumns() throws SQLException {
+        if(this.columns == null) {
             this.source.loadHeaders(this);
         }
-        return headers;
+        if(!this.columnsLoaded) {
+            this.source.loadHeaders(this);
+            this.columnsLoaded = true;
+        }
+        return this.columns;
+    }
+
+    public void addColumnsIfNotExists(Column column) {
+        if(this.columns == null) {
+            this.columns = new ArrayList<>();
+            this.columns.add(column);
+            return;
+        }
+        if(!this.columns.contains(column)) {
+            this.columns.add(column);
+        }
+    }
+
+    public List<String> getAndLoadHeaderNames() throws SQLException {
+        return getAndLoadColumns()
+                .stream()
+                .map((value) -> value.name)
+                .toList();
     }
 
     public void setContent(List<List<String>> content) {
@@ -52,25 +76,14 @@ public class Table extends Result {
     }
 
     /**
-     * Loads the content and headers from a given ResultSet
-     *
-     * @param rs ResultSet rs
-     */
-    public void load(ResultSet rs) throws SQLException {
-        this.loaded = true;
-        this.headers = Database.headersFromResult(rs);
-        this.content = Database.contentFromResult(rs);
-    }
-
-    /**
      * Loads the table from given headers and contents
      *
-     * @param headers headers to load Table from
+     * @param columns headers to load Table from
      * @param content Content to load Tables from
      */
-    public void load(List<String> headers, List<List<String>> content) {
+    public void load(List<Column> columns, List<List<String>> content) {
         this.loaded = true;
-        this.headers = headers;
+        this.columns = columns;
         this.content = content;
     }
     //</editor-fold>
