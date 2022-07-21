@@ -36,7 +36,7 @@ public class CodeTab extends Tab implements Resource {
     private Button btRun;
 
     @FXML
-    private ChoiceBox cbDatabase;
+    private ChoiceBox<Database> cbDatabase;
 
     private CodeArea codeArea;
 
@@ -56,7 +56,7 @@ public class CodeTab extends Tab implements Resource {
 
     public CodeTab(Database db, Scene scene) {
         super("console");
-        setSource(db);
+        this.source = db;
         try {
             init();
         } catch (IOException e) {
@@ -76,6 +76,9 @@ public class CodeTab extends Tab implements Resource {
             throw new IllegalArgumentException("Database has to be Valid!");
         }
         this.source = source;
+        //reload CodeArea:
+        stop();
+        loadCodeArea();
     }
 
     private void init() throws IOException {
@@ -84,9 +87,21 @@ public class CodeTab extends Tab implements Resource {
         var scene = new Scene(fxmlLoader.load());
         var root = scene.getRoot();
         setContent(root);
+
+        //add Database selector to ChoiceBox:
+        Main.RESOURCES.connections.forEach((value) -> {
+            cbDatabase.getItems().add(value);
+        });
+        cbDatabase.getSelectionModel().select(this.source);
+        cbDatabase.setOnAction((event -> {
+            setSource(cbDatabase.getValue());
+        }));
     }
 
     private void loadCodeArea() {
+        if(this.codeArea != null) {
+            root.getChildren().remove(this.codeArea);
+        }
         var codeArea = new CodeArea();
         //Number markings:
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
@@ -178,8 +193,10 @@ public class CodeTab extends Tab implements Resource {
      */
     @Override
     public void stop() {
-        Main.RESOURCES.log.debug("Stopping highlighter for SQL");
-        executor.shutdown();
+        if(this.executor != null) {
+            Main.RESOURCES.log.debug("Stopping highlighter for SQL");
+            executor.shutdown();
+        }
     }
 
     private Task<StyleSpans<Collection<String>>> computeHighlightingAsync() {
