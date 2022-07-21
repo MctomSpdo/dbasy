@@ -10,7 +10,7 @@
    <children>
       <HBox spacing="5.0">
          <children>
-            <Button fx:id="btRun" mnemonicParsing="false" text="Run" />
+            <Button fx:id="btRun" mnemonicParsing="false" onAction="#onBtRun" text="Run" />
             <ChoiceBox fx:id="cbDatabase" prefWidth="150.0" />
          </children>
          <padding>

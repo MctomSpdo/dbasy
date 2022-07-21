@@ -7,6 +7,7 @@ import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.ui.UiUtil;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -46,6 +47,11 @@ public class CodeTab extends Tab implements Resource {
     @FXML
     public void initialize() {
         loadCodeArea();
+    }
+
+    @FXML
+    void onBtRun(ActionEvent event) {
+        query();
     }
 
     public CodeTab(Database db, Scene scene) {
