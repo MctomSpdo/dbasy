@@ -60,6 +60,10 @@ public class Result {
         return content;
     }
 
+    public String getStatement() {
+        return statement;
+    }
+
     public boolean isInvalid() {
         return invalid;
     }

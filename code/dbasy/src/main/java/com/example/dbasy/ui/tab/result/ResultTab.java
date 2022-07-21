@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ResultTab extends Tab {
@@ -59,7 +60,7 @@ public class ResultTab extends Tab {
 
     @FXML
     void btReloadHandler(ActionEvent event) {
-
+        reload();
     }
 
     @FXML
@@ -99,6 +100,11 @@ public class ResultTab extends Tab {
         setGraphic(UiUtil.getSizedImage(IconLoader.getTable()));
     }
 
+    /**
+     * loads the Content of the Table
+     *
+     * Does not need to be run on ApplicationThread
+     */
     public void loadContent() {
         //copy list to get around problems (since we are adding the headers)
         var content = new ArrayList<>(this.result.getContent());
@@ -120,5 +126,21 @@ public class ResultTab extends Tab {
             }
             table.setItems(data);
         });
+    }
+
+    /**
+     * Reloads the Result statement (does make a database request)
+     */
+    public void reload() {
+        this.tvMain.getColumns().clear();
+        (new Thread(() -> {
+            var source = this.result.getSource();
+            try {
+                this.result = source.request(this.result.getStatement());
+                loadContent();
+            } catch (SQLException e) {
+                Main.RESOURCES.log.error("Could not reload Result: ", e);
+            }
+        })).start();
     }
 }
