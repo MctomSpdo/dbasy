@@ -34,16 +34,22 @@ public class Table extends Result {
 
     public List<Column> getAndLoadColumns() throws SQLException {
         if(this.columns == null) {
-            this.source.loadHeaders(this);
+            this.source.loadColumns(this);
+            this.columnsLoaded = true;
         }
         if(!this.columnsLoaded) {
-            this.source.loadHeaders(this);
+            this.source.loadColumns(this);
             this.columnsLoaded = true;
         }
         return this.columns;
     }
 
-    public boolean addColumnsIfNotExists(Column column) {
+    /**
+     * Adds a Columns to the List, when it does not exist
+     * @param column Column to add
+     * @return true if it got added, false otherwise
+     */
+    public boolean addColumnIfNotExists(Column column) {
         if(this.columns == null) {
             this.columns = new ArrayList<>();
             this.columns.add(column);
@@ -56,7 +62,7 @@ public class Table extends Result {
         return false;
     }
 
-    public List<String> getAndLoadHeaderNames() throws SQLException {
+    public List<String> getAndLoadColumnNames() throws SQLException {
         return getAndLoadColumns()
                 .stream()
                 .map((value) -> value.name)

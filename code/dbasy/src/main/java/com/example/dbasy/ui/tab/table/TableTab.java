@@ -120,7 +120,7 @@ public class TableTab extends Tab {
                 this.table.load(getRowLimit(), 0);
                 //copy list to get around problems (since we are adding the headers)
                 var content = new ArrayList<>(this.table.getContent());
-                content.add(0, this.table.getAndLoadHeaderNames());
+                content.add(0, this.table.getAndLoadColumnNames());
                 //copy to arraylist for javafx
                 ObservableList<String[]> data = FXCollections.observableArrayList();
                 content.forEach((value) -> {

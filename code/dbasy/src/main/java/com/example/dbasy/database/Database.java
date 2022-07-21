@@ -74,7 +74,7 @@ public abstract class Database {
                 while (primaryKeys.next()) {
                     var column = new Column(table, primaryKeys.getString("COLUMN_NAME"));
                     column.keys.add(new Key(column, "", Key.Type.PRIMARY));
-                    table.addColumnsIfNotExists(column);
+                    table.addColumnIfNotExists(column);
                 }
             }
 
@@ -82,10 +82,14 @@ public abstract class Database {
                 while(exportedKeys.next()) {
                     var column = new Column(table, exportedKeys.getString("PKCOLUMN_NAME"));
                     String referenceName = exportedKeys.getString("FKTABLE_NAME") + "."  + exportedKeys.getString("FKCOLUMN_NAME");
-                    column.keys.add(new Key(column,  referenceName, Key.Type.PRIMARY));
+                    column.keys.add(new Key(column,  referenceName, Key.Type.FOREIGN));
 
-                    if(!table.addColumnsIfNotExists(column)) {
-                        //TODO: just add a exported Keys reference
+                    if(!table.addColumnIfNotExists(column)) {
+                        var index = table.getColumns().indexOf(table);
+                        if(index != -1) {
+                            var existingColumn = table.getColumns().get(index);
+                            existingColumn.keys.add(new Key(column, referenceName, Key.Type.FOREIGN));
+                        }
                     }
 
                     /*var metadata = exportedKeys.getMetaData();
@@ -141,7 +145,7 @@ public abstract class Database {
      * @return same table with headers
      * @throws SQLException on error
      */
-    public abstract Table loadHeaders(Table table) throws SQLException;
+    public abstract Table loadColumns(Table table) throws SQLException;
 
     /**
      * Loads the Table, with the given limits and offsets

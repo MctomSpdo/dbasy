@@ -41,11 +41,11 @@ public class MySQLDatabase extends Database {
     }
 
     @Override
-    public Table loadHeaders(Table table) throws SQLException {
+    public Table loadColumns(Table table) throws SQLException {
         var st = this.conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
         st.execute("select * from " + table.getName() + " limit 0");
         var rs = st.getResultSet();
-        columnsFromResult(rs).forEach(table::addColumnsIfNotExists);
+        columnsFromResult(rs).forEach(table::addColumnIfNotExists);
         rs.close();
         st.close();
         return table;

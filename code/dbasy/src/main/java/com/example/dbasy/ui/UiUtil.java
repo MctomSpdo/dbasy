@@ -52,7 +52,7 @@ public class UiUtil {
         columnsItem.expandedProperty().addListener((observableValue1, aBoolean1, t11) -> {
             if(t11) {
                 var firstColumnItem = columnsItem.getChildren().get(0);
-                if(firstColumnItem == null || firstColumnItem.getValue().equals(UiUtil.getLoadingTreeItem().getValue())) {
+                if(firstColumnItem == null || firstColumnItem.getValue() instanceof String) {
                     (new Thread(() -> {
                         try {
                             var headers = table.getAndLoadColumns();

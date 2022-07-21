@@ -3,7 +3,8 @@ package com.example.dbasy.database;
 public class Key {
     public enum Type {
         PRIMARY,
-        FOREIGN
+        FOREIGN,
+        UNIQUE
     }
     Column parent;
     String references;

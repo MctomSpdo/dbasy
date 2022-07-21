@@ -37,7 +37,7 @@ public class InvalidDatabase extends Database {
     }
 
     @Override
-    public Table loadHeaders(Table table) throws SQLException {
+    public Table loadColumns(Table table) throws SQLException {
         return null;
     }
 
