@@ -15,8 +15,8 @@
             <Button fx:id="btReload" mnemonicParsing="false" onAction="#btReloadHandler" text="Reload" />
             <Button fx:id="btRemove" disable="true" mnemonicParsing="false" onAction="#btRemoveHandler" text="Remove" />
             <Button fx:id="btAdd" disable="true" mnemonicParsing="false" onAction="#btAddHandler" text="Add" />
-            <Button disable="true" mnemonicParsing="false" onAction="#btRollbackHandler" text="Rollback" />
             <Button disable="true" mnemonicParsing="false" onAction="#btCommitHandler" text="Commit" />
+            <Button disable="true" mnemonicParsing="false" onAction="#btRollbackHandler" text="Rollback" />
          </children>
          <VBox.margin>
             <Insets />

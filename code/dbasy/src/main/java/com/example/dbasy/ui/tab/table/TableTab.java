@@ -14,6 +14,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -129,6 +130,7 @@ public class TableTab extends Tab {
                 data.remove(0);//remove titles from data
                 Platform.runLater(() -> {
                     TableView<String[]> table = this.tvMain;
+                    table.setPlaceholder(new Label("No content in Table"));
                     for (int i = 0; i < content.get(0).size(); i++) {
                         var tc = new TableColumn(content.get(0).get(i));
                         final int colNo = i;
@@ -139,8 +141,8 @@ public class TableTab extends Tab {
                     table.setItems(data);
                 });
             } catch (SQLException e) {
-                e.printStackTrace();
-                //TODO: Display error instead of table
+                Main.RESOURCES.log.error("Error loading TableTab content: ", e);
+                tvMainSetError("Error loading Tables: " + e.getMessage());
             }
         }).start();
     }
@@ -170,6 +172,17 @@ public class TableTab extends Tab {
      */
     private void tvMainSetLoading() {
         this.tvMain.getColumns().clear();
-        //TODO: implement loading sign
+        this.tvMain.setPlaceholder(new ProgressIndicator());
+    }
+
+    /**
+     * sets an errormessage into the TableView
+     * @param message errormessage
+     */
+    private void tvMainSetError(String message) {
+        this.tvMain.getColumns().clear();
+        var errorLabel = new Label(message);
+        errorLabel.setTextFill(Color.color(1, 0, 0));
+        this.tvMain.setPlaceholder(errorLabel);
     }
 }
