@@ -115,7 +115,7 @@ public class TableTab extends Tab {
             throw new IllegalArgumentException("There has to be a Table!");
         }
         new Thread(() -> {
-            tvMainSetLoading();
+            Platform.runLater(this::tvMainSetLoading);
             try {
                 this.table.load(getRowLimit(), 0);
                 //copy list to get around problems (since we are adding the headers)
