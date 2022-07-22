@@ -64,6 +64,7 @@ public class TableTab extends Tab {
 
     @FXML
     void btReloadHandler(ActionEvent event) {
+        btReload.setDisable(true);
         loadContent();
     }
 
@@ -144,6 +145,7 @@ public class TableTab extends Tab {
                         table.getColumns().add(tc);
                     }
                     table.setItems(data);
+                    btReload.setDisable(false);
                 });
             } catch (SQLException e) {
                 Main.RESOURCES.log.error("Error loading TableTab content: ", e);
