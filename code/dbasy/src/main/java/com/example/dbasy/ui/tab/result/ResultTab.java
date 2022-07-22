@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 import java.io.IOException;
@@ -60,6 +61,7 @@ public class ResultTab extends Tab {
 
     @FXML
     void btReloadHandler(ActionEvent event) {
+        this.btReload.setDisable(true);
         reload();
     }
 
@@ -133,14 +135,45 @@ public class ResultTab extends Tab {
      */
     public void reload() {
         this.tvMain.getColumns().clear();
+        tvMainLoading();
         (new Thread(() -> {
             var source = this.result.getSource();
             try {
                 this.result = source.request(this.result.getStatement());
                 loadContent();
+                Platform.runLater(() -> {
+                    tvMainDefaultText();
+                    this.btReload.setDisable(false);
+                });
             } catch (SQLException e) {
                 Main.RESOURCES.log.error("Could not reload Result: ", e);
+                tvMainError("Error loading Result: " + e.getMessage());
             }
         })).start();
+    }
+
+    /**
+     * sets a loading icon into the TabelView
+     */
+    private void tvMainLoading() {
+        this.tvMain.setPlaceholder(new ProgressIndicator());
+    }
+
+    /**
+     * Resets the Text to default
+     */
+    private void tvMainDefaultText() {
+        this.tvMain.setPlaceholder(new Label("No content in Table"));
+    }
+
+    /**
+     * sets an error message to the TableView
+     * @param message error text
+     */
+    private void tvMainError(String message) {
+        this.tvMain.getColumns().clear();
+        var errorLabel = new Label(message);
+        errorLabel.setTextFill(Color.color(1, 0, 0));
+        this.tvMain.setPlaceholder(errorLabel);
     }
 }
