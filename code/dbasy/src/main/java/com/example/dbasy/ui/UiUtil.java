@@ -6,6 +6,7 @@ import com.example.dbasy.database.Database;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.ui.dialogs.ConnectDialog;
+import com.example.dbasy.ui.dialogs.RenameDatabaseDialog;
 import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
@@ -115,4 +116,14 @@ public class UiUtil {
         return sb.toString();
     }
 
+    public static void renameDatabaseDialog(Database db) {
+        try {
+            var dialog = new RenameDatabaseDialog(db);
+            if(dialog.showDialog()) {
+                Main.getController().refreshDBTree(false);
+            }
+        } catch (IOException e) {
+            Main.RESOURCES.log.fatal("Could not load internal Files ", e);
+        }
+    }
 }

@@ -43,7 +43,7 @@ public abstract class DBUI {
 
         //rename Menu:
         var renameDbItem = new MenuItem("Rename");
-        //TODO: add rename UI
+        renameDbItem.setOnAction((event -> UiUtil.renameDatabaseDialog(caller)));
         menu.getItems().add(renameDbItem);
 
         //refresh db:
