@@ -3,6 +3,10 @@ package com.example.dbasy.database;
 import com.example.dbasy.Main;
 import com.example.dbasy.Resources;
 import com.example.dbasy.database.mysql.MySQLDatabase;
+import com.example.dbasy.ui.ContextItem;
+import com.example.dbasy.ui.tab.code.CodeTab;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +15,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Database {
+public abstract class Database implements ContextItem {
     protected Connection conn;
     protected ConnectionDetails details;
     protected boolean active = false;
@@ -243,4 +247,16 @@ public abstract class Database {
         return outer;
     }
     //</editor-fold>
+
+    @Override
+    public ContextMenu getContextMenu() {
+        var menu = new ContextMenu();
+
+        //new query console:
+        var consoleItem = new MenuItem("query console");
+        consoleItem.setOnAction((actionEvent) -> Main.getController().newCodeTab(this));
+        menu.getItems().add(consoleItem);
+
+        return menu;
+    }
 }

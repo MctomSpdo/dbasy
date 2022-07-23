@@ -1,6 +1,7 @@
 package com.example.dbasy.ui;
 
 import com.example.dbasy.Resources;
+import com.example.dbasy.database.Database;
 import com.example.dbasy.database.Result;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.ui.tab.code.CodeTab;
@@ -12,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -19,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class MainController {
     final Resources resources;
@@ -91,6 +94,19 @@ public class MainController {
         }
     }
 
+    @FXML
+    void trDatabasesContexHandler(ContextMenuEvent event) {
+        List<Object> selectedItems = this.trDatabases.getSelectionModel().getSelectedItems();
+        Object selector = selectedItems.get(0);
+
+        if(selector instanceof TreeItem<?>) {
+            Object type = ((TreeItem<?>) selector).getValue();
+            if(type instanceof ContextItem) {
+                this.trDatabases.setContextMenu(((ContextItem) type).getContextMenu());
+            }
+        }
+    }
+
     public MainController(Resources resources) {
         resources.controller = this;
         this.resources = resources;
@@ -109,7 +125,15 @@ public class MainController {
         stage.setScene(scene);
         stage.show();
 
-        CodeTab tab = new CodeTab(resources.connections.get(0), this.scene);
+        newCodeTab(resources.connections.get(0));
+    }
+
+    /**
+     * Adds a new CodeTab to the Main Window
+     * @param db Database for the CodeTab
+     */
+    public void newCodeTab(Database db) {
+        CodeTab tab = new CodeTab(db, this.scene);
         tbMain.getTabs().add(tab);
         tbMain.getSelectionModel().select(tab);
     }

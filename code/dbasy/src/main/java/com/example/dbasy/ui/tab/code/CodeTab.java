@@ -56,6 +56,9 @@ public class CodeTab extends Tab implements Resource {
 
     public CodeTab(Database db, Scene scene) {
         super("console");
+        if(db instanceof InvalidDatabase) {
+            throw new IllegalArgumentException("Database has to be Valid");
+        }
         this.source = db;
         try {
             init();
