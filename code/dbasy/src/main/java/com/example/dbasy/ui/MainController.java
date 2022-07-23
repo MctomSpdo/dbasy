@@ -94,8 +94,14 @@ public class MainController {
         }
     }
 
+    /**
+     * On TreeView Context menu Requested
+     *
+     * Loads the correct ContextMenu for the selected TreeItem
+     * @param event ContextMenuEvent
+     */
     @FXML
-    void trDatabasesContexHandler(ContextMenuEvent event) {
+    void trDatabasesContextHandler(ContextMenuEvent event) {
         List<Object> selectedItems = this.trDatabases.getSelectionModel().getSelectedItems();
         Object selector = selectedItems.get(0);
 

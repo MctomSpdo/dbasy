@@ -50,7 +50,7 @@
             <items>
                 <SplitPane dividerPositions="0.25">
                     <items>
-                          <TreeView fx:id="trDatabases" onContextMenuRequested="#trDatabasesContexHandler" onMouseClicked="#trMouseClicked" />
+                          <TreeView fx:id="trDatabases" onContextMenuRequested="#trDatabasesContextHandler" onMouseClicked="#trMouseClicked" />
                         <VBox>
                      <children>
                         <TabPane fx:id="tbMain" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tabClosingPolicy="ALL_TABS" />
