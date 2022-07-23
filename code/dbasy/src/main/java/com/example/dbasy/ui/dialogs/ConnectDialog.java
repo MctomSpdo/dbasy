@@ -1,4 +1,4 @@
-package com.example.dbasy.ui;
+package com.example.dbasy.ui.dialogs;
 
 import com.example.dbasy.Main;
 import com.example.dbasy.Resources;
@@ -14,7 +14,7 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class ConnectController {
+public class ConnectDialog {
     //<editor-fold desc="FXML Vars">
     @FXML
     public TextField txtHost;
@@ -115,7 +115,7 @@ public class ConnectController {
         pane.getButtonTypes().sorted();
 
         //get root node from fxml and set in pane:
-        var fxmlLoader = new FXMLLoader(ConnectController.class.getResource("connect-view.fxml"));
+        var fxmlLoader = new FXMLLoader(ConnectDialog.class.getResource("connect-view.fxml"));
         fxmlLoader.setController(this);
         var scene = new Scene(fxmlLoader.load());
         var root = scene.getRoot();

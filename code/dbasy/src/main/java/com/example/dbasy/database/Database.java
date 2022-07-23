@@ -4,9 +4,7 @@ import com.example.dbasy.Main;
 import com.example.dbasy.Resources;
 import com.example.dbasy.database.mysql.MySQLDatabase;
 import com.example.dbasy.ui.ContextItem;
-import com.example.dbasy.ui.tab.code.CodeTab;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -250,13 +248,6 @@ public abstract class Database implements ContextItem {
 
     @Override
     public ContextMenu getContextMenu() {
-        var menu = new ContextMenu();
-
-        //new query console:
-        var consoleItem = new MenuItem("query console");
-        consoleItem.setOnAction((actionEvent) -> Main.getController().newCodeTab(this));
-        menu.getItems().add(consoleItem);
-
-        return menu;
+        return getUI().getContextMenu(this);
     }
 }

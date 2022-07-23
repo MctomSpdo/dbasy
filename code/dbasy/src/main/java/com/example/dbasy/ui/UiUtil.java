@@ -5,6 +5,7 @@ import com.example.dbasy.Resources;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.database.invalid.InvalidDatabase;
+import com.example.dbasy.ui.dialogs.ConnectDialog;
 import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
@@ -22,7 +23,7 @@ public class UiUtil {
     public static Database connectionDialog(Resources resources) {
         Database db;
         try {
-            var connectController = new ConnectController();
+            var connectController = new ConnectDialog();
             db = connectController.showDialog();
             if(!(db instanceof InvalidDatabase)) {
                 resources.connections.add(db);

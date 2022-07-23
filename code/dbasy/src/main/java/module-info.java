@@ -21,4 +21,6 @@ module com.example.dbasy {
     exports com.example.dbasy.database;
     exports com.example.dbasy.database.invalid;
     exports com.example.dbasy.database.mysql;
+    exports com.example.dbasy.ui.dialogs;
+    opens com.example.dbasy.ui.dialogs to javafx.fxml;
 }
