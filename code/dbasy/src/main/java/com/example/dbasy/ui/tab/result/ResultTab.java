@@ -45,6 +45,7 @@ public class ResultTab extends Tab {
     @FXML
     public void initialize() {
         this.tvMain.setEditable(true);
+        this.cbRows.setDisable(true);
         //load table content
         loadContent();
     }
