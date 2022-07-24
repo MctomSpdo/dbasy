@@ -1,5 +1,6 @@
 package com.example.dbasy.ui.dialogs;
 
+import com.example.dbasy.ui.IconLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +21,7 @@ public class ConformationDialog {
     @FXML
     public void initialize() {
         this.lbText.setText(text);
+        this.iVMain.setImage(IconLoader.getWarningFull());
     }
 
     public ConformationDialog(String text) {

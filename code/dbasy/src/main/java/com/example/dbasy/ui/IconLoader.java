@@ -37,4 +37,22 @@ public class IconLoader {
         }
         return database;
     }
+
+    private static Image warning = null;
+
+    public static Image getWarning() {
+        if(warning == null) {
+            warning = new Image(String.valueOf(IconLoader.class.getResource("icons/warning.png")));
+        }
+        return warning;
+    }
+
+    private static Image warningFull = null;
+
+    public static Image getWarningFull() {
+        if(warningFull == null) {
+            warningFull = new Image(String.valueOf(IconLoader.class.getResource("icons/warning.png")));
+        }
+        return warningFull;
+    }
 }
