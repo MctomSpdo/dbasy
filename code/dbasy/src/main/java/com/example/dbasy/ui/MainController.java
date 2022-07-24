@@ -103,14 +103,18 @@ public class MainController {
     @FXML
     void trDatabasesContextHandler(ContextMenuEvent event) {
         List<Object> selectedItems = this.trDatabases.getSelectionModel().getSelectedItems();
-        Object selector = selectedItems.get(0);
+        if(selectedItems.size() > 0) {
+            Object selector = selectedItems.get(0);
 
-        if(selector instanceof TreeItem<?>) {
-            Object type = ((TreeItem<?>) selector).getValue();
-            if(type instanceof ContextItem) {
-                this.trDatabases.setContextMenu(((ContextItem) type).getContextMenu());
+            if(selector instanceof TreeItem<?>) {
+                Object type = ((TreeItem<?>) selector).getValue();
+                if(type instanceof ContextItem) {
+                    this.trDatabases.setContextMenu(((ContextItem) type).getContextMenu());
+                    return;
+                }
             }
         }
+        this.trDatabases.setContextMenu(new ContextMenu());
     }
 
     public MainController(Resources resources) {
