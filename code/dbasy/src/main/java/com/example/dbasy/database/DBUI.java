@@ -67,13 +67,15 @@ public abstract class DBUI {
         //remove db
         var removeDbItem = new MenuItem("Remove");
         removeDbItem.setOnAction((actionEvent) -> {
-            (new Thread(() -> {
-                try {
-                    caller.remove();
-                } catch (SQLException e) {
-                    Main.RESOURCES.log.error("Could not remove connection: ", e);
-                }
-            })).start();
+            if(UiUtil.conformationDialog("Database '" + caller.getDetails().name + "' will be removed")) {
+                (new Thread(() -> {
+                    try {
+                        caller.remove();
+                    } catch (SQLException e) {
+                        Main.RESOURCES.log.error("Could not remove connection: ", e);
+                    }
+                })).start();
+            }
         });
         menu.getItems().add(removeDbItem);
 

@@ -41,7 +41,6 @@ public class RenameDatabaseDialog {
     private Dialog<String> getDialog() throws IOException {
         var dialog = new Dialog<String>();
 
-
         //create pane:
         var pane = new DialogPane();
 
@@ -52,7 +51,6 @@ public class RenameDatabaseDialog {
 
         pane.getButtonTypes().sorted();
 
-        //TODO: finish code
         //load root node from fxml
         var fxmlLoader = new FXMLLoader(RenameDatabaseDialog.class.getResource("renameDB-view.fxml"));
         fxmlLoader.setController(this);

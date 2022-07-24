@@ -5,6 +5,7 @@ import com.example.dbasy.Resources;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.database.invalid.InvalidDatabase;
+import com.example.dbasy.ui.dialogs.ConformationDialog;
 import com.example.dbasy.ui.dialogs.ConnectDialog;
 import com.example.dbasy.ui.dialogs.RenameDatabaseDialog;
 import javafx.application.Platform;
@@ -125,5 +126,15 @@ public class UiUtil {
         } catch (IOException e) {
             Main.RESOURCES.log.fatal("Could not load internal Files ", e);
         }
+    }
+
+    public static boolean conformationDialog(String text) {
+        try {
+            var dialog = new ConformationDialog(text);
+            return dialog.showDialog();
+        } catch (IOException e) {
+            Main.RESOURCES.log.fatal("Could not internal Files", e);
+        }
+        return false;
     }
 }
