@@ -60,12 +60,21 @@ public abstract class Database implements ContextItem {
     //</editor-fold>
 
     //<editor-fold desc="Connect and close">
+
+    /**
+     * Connects to the Database
+     * @throws SQLException on Error during connecting
+     */
     public void connect() throws SQLException {
         Main.RESOURCES.log.info("Starting DB Connection: " + this.details.host + ":" + this.details.port);
         this.active = true;
         this.conn = DriverManager.getConnection(getUrl(this.details), this.details.username, this.details.password);
     }
 
+    /**
+     * Closes the connection to the Database
+     * @throws SQLException on Error during disconnecting
+     */
     public void close() throws SQLException {
         Main.RESOURCES.log.info("Closing DB Connection: " + this.details.host + ":" + this.details.port);
         this.active = false;
@@ -187,6 +196,12 @@ public abstract class Database implements ContextItem {
      */
     public abstract Table loadTable(Table table, int limit, int offset) throws SQLException;
 
+    /**
+     * Sends a request to the database.
+     * @param sql SQL to query
+     * @return Result from the query
+     * @throws SQLException on error
+     */
     public abstract Result request(String sql) throws SQLException;
     //</editor-fold>
 
@@ -274,11 +289,15 @@ public abstract class Database implements ContextItem {
     }
     //</editor-fold>
 
+    /**
+     * Gets the context Menu when right-clicking on a database item
+     * @return menu
+     */
     @Override
     public ContextMenu getContextMenu() {
         return getUI().getContextMenu(this);
     }
-
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

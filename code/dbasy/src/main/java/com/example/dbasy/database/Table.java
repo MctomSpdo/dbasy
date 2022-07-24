@@ -6,6 +6,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Tables of a {@link com.example.dbasy.database.Database database}
+ */
 public class Table extends Result {
     String name;
     public boolean columnsLoaded = false;
@@ -32,12 +35,14 @@ public class Table extends Result {
         this.columns = headers;
     }
 
+    /**
+     * Returns the Columns in the Table.
+     * If the Columns are currently not loaded, it will load them.
+     * @return List of columns
+     * @throws SQLException on error (only when loaded and not cached)
+     */
     public List<Column> getAndLoadColumns() throws SQLException {
-        if(this.columns == null) {
-            this.source.loadColumns(this);
-            this.columnsLoaded = true;
-        }
-        if(!this.columnsLoaded) {
+        if(this.columns == null || !this.columnsLoaded) {
             this.source.loadColumns(this);
             this.columnsLoaded = true;
         }
@@ -62,6 +67,12 @@ public class Table extends Result {
         return false;
     }
 
+    /**
+     * Gets the columns names from the Table
+     * If the columns are currently not loaded, it will load the columns from the database
+     * @return List of ColumnNames
+     * @throws SQLException on error (only occurs when loading columns)
+     */
     public List<String> getAndLoadColumnNames() throws SQLException {
         return getAndLoadColumns()
                 .stream()
@@ -69,6 +80,10 @@ public class Table extends Result {
                 .toList();
     }
 
+    /**
+     * Sets the content of the Table
+     * @param content contents of the Table
+     */
     public void setContent(List<List<String>> content) {
         this.content = content;
     }

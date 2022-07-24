@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * a column in a {@link com.example.dbasy.database.Table table}.
+ * A column can have multiple keys, which can be gotten by keys
+ */
 public class Column {
     public final Table parent;
     public final String name;
@@ -20,6 +24,10 @@ public class Column {
         this.keys.addAll(keys);
     }
 
+    /**
+     * Check if Columns is a primary key.
+     * @return true if primary, false otherwise
+     */
     public boolean isPrimaryKey() {
         for(Key k : keys) {
             if(k.type.equals(Key.Type.PRIMARY)) {
