@@ -35,7 +35,41 @@ public abstract class DBUI {
      */
     public abstract Pattern getPattern();
 
+    /**
+     * Returns an array of keywords used in the database
+     *
+     * This could be for example: {"SELECT", "DROP", "ALTER", "INTO", ...}
+     *
+     * following rules apply to keywords
+     * - single words (no spaces, so "insert into" would be {"INSERT", "INTO"}
+     * - all uppercase
+     * - plain sql keywords, no functions
+     * - sorted alphabetically
+     *
+     * @return StringArray with keywords
+     */
+    public abstract String[] getKeywords();
+
+    /**
+     * Returns an array of function names used in the database
+     *
+     * This could be for example: {"MIN", "MAX", "CONCAT", ...}
+     *
+     * following rules apply to function names:
+     * - single words (since sql does require that too)
+     * - all uppercase
+     * - sorted alphabetically
+     * @return StringArray with function names
+     */
+    public abstract String[] getFunctions();
+
     //<editor-fold desc="Context Menu">
+
+    /**
+     * Gives the Context Menu for right-clicking on a database
+     * @param caller Database which was clicked
+     * @return ContextMenu to display
+     */
     public ContextMenu getContextMenu(Database caller) {
         var menu = new ContextMenu();
 
@@ -82,6 +116,13 @@ public abstract class DBUI {
         return menu;
     }
 
+    /**
+     * Gets the new menu when clicking on a database.
+     *
+     * This is a submenu of the Menu returned by {@link #getContextMenu(Database)}
+     * @param caller Database that was clicked
+     * @return Submenu "New"
+     */
     protected Menu getNewMenu(Database caller) {
         var menu = new Menu("New");
 

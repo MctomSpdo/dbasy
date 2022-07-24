@@ -69,5 +69,15 @@ public class MySQLUI extends DBUI {
     public Pattern getPattern() {
         return PATTERN;
     }
+
+    @Override
+    public String[] getKeywords() {
+        return KEYWORDS;
+    }
+
+    @Override
+    public String[] getFunctions() {
+        return FUNCTIONS;
+    }
     //</editor-fold>
 }
