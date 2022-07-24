@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.IOException;
@@ -26,6 +27,11 @@ public class ConformationDialog {
 
     public ConformationDialog(String text) {
         this.text = text;
+    }
+
+    public ConformationDialog(String text, Image image) {
+        this(text);
+        this.iVMain.setImage(image);
     }
 
     public boolean showDialog() throws IOException {
