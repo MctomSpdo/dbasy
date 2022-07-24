@@ -1,6 +1,7 @@
 package com.example.dbasy.database.invalid;
 
 import com.example.dbasy.database.*;
+import javafx.scene.control.ContextMenu;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -53,5 +54,10 @@ public class InvalidDatabase extends Database {
     @Override
     public Result request(String sql) {
         return null;
+    }
+
+    @Override
+    public ContextMenu getContextMenu() {
+        return new ContextMenu();
     }
 }
