@@ -10,6 +10,10 @@ import java.sql.SQLException;
 public class MySQLDatabase extends Database {
     private static final MySQLUI userInterface = new MySQLUI();
 
+    public MySQLDatabase() {
+        super();
+    }
+
     @Override
     public String toString() {
         return this.details.name;

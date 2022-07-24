@@ -6,6 +6,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class InvalidDatabase extends Database {
+    public InvalidDatabase() {
+        super();
+    }
+
     @Override
     public String toString() {
         return "INVALID";

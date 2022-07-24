@@ -9,6 +9,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.Image;
 
+import java.sql.SQLException;
 import java.util.regex.Pattern;
 
 public abstract class DBUI {
@@ -61,11 +62,19 @@ public abstract class DBUI {
 
         //close connection:
         var closeConnectionDBItem = new MenuItem("Disconnect");
-        //TODO: add logic
         menu.getItems().add(closeConnectionDBItem);
 
         //remove db
         var removeDbItem = new MenuItem("Remove");
+        removeDbItem.setOnAction((actionEvent) -> {
+            (new Thread(() -> {
+                try {
+                    caller.remove();
+                } catch (SQLException e) {
+                    Main.RESOURCES.log.error("Could not remove connection: ", e);
+                }
+            })).start();
+        });
         menu.getItems().add(removeDbItem);
 
         return menu;

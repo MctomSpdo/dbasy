@@ -5,6 +5,7 @@ import com.example.dbasy.database.Result;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.ui.IconLoader;
 import com.example.dbasy.ui.UiUtil;
+import com.example.dbasy.ui.tab.DataBaseTab;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -22,7 +23,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class ResultTab extends Tab {
+public class ResultTab extends Tab implements DataBaseTab {
     //<editor-fold desc="FXML Variables">
     @FXML
     private Button btAdd;
@@ -148,7 +149,10 @@ public class ResultTab extends Tab {
                 });
             } catch (SQLException e) {
                 Main.RESOURCES.log.error("Could not reload Result: ", e);
-                tvMainError("Error loading Result: " + e.getMessage());
+                Platform.runLater(() -> {
+                    tvMainError("Error loading Result: " + e.getMessage());
+                    close();
+                });
             }
         })).start();
     }
@@ -176,5 +180,18 @@ public class ResultTab extends Tab {
         var errorLabel = new Label(message);
         errorLabel.setTextFill(Color.color(1, 0, 0));
         this.tvMain.setPlaceholder(errorLabel);
+    }
+
+    @Override
+    public void check() {
+        if(!Main.RESOURCES.connections.contains(this.result.getSource())) {
+            close();
+        }
+    }
+
+    protected void close() {
+        try {
+            getTabPane().getTabs().remove(this);
+        } catch (NullPointerException ignored) {}
     }
 }

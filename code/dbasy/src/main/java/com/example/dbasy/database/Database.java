@@ -4,6 +4,7 @@ import com.example.dbasy.Main;
 import com.example.dbasy.Resources;
 import com.example.dbasy.database.mysql.MySQLDatabase;
 import com.example.dbasy.ui.ContextItem;
+import javafx.application.Platform;
 import javafx.scene.control.ContextMenu;
 
 import java.sql.Connection;
@@ -12,11 +13,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public abstract class Database implements ContextItem {
     protected Connection conn;
     protected ConnectionDetails details;
     protected boolean active = false;
+
+    //numbering of db for equals
+    private static final AtomicInteger counter = new AtomicInteger(0);
+    private final int number;
+
+    public Database() {
+        this.number = counter.incrementAndGet();
+    }
+
+    public Database(ConnectionDetails details) {
+        this();
+        this.details = details;
+    }
 
     //<editor-fold desc="Getter and Setter">
     public Connection getConn() {
@@ -54,6 +70,20 @@ public abstract class Database implements ContextItem {
         Main.RESOURCES.log.info("Closing DB Connection: " + this.details.host + ":" + this.details.port);
         this.active = false;
         this.conn.close();
+    }
+
+    /**
+     * completely close and removes the database
+     *
+     * when there is an error, it will still remove the database from resources
+     * @throws SQLException on error
+     */
+    public void remove() throws SQLException {
+        Main.RESOURCES.connections.remove(this);
+        Platform.runLater(() -> {
+            Main.getController().UpdateDataBaseList();
+        });
+        close();
     }
     //</editor-fold>
 
@@ -249,5 +279,18 @@ public abstract class Database implements ContextItem {
     @Override
     public ContextMenu getContextMenu() {
         return getUI().getContextMenu(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Database database = (Database) o;
+        return number == database.number;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(number);
     }
 }

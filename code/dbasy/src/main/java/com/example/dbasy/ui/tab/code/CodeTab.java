@@ -5,9 +5,11 @@ import com.example.dbasy.Resource;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.ui.UiUtil;
+import com.example.dbasy.ui.tab.DataBaseTab;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -28,7 +30,7 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CodeTab extends Tab implements Resource {
+public class CodeTab extends Tab implements Resource, DataBaseTab {
     @FXML
     private VBox root;
 
@@ -92,10 +94,7 @@ public class CodeTab extends Tab implements Resource {
         setContent(root);
 
         //add Database selector to ChoiceBox:
-        Main.RESOURCES.connections.forEach((value) -> {
-            cbDatabase.getItems().add(value);
-        });
-        cbDatabase.getSelectionModel().select(this.source);
+        updateCBDatabase();
         cbDatabase.setOnAction((event -> {
             setSource(cbDatabase.getValue());
         }));
@@ -149,6 +148,31 @@ public class CodeTab extends Tab implements Resource {
         this.root.getChildren().add(codeArea);
     }
 
+    @Override
+    public void check() {
+        if(!Main.RESOURCES.connections.contains(this.source)) {//if database is closed
+            close();
+        } else {
+            updateCBDatabase();
+        }
+
+    }
+
+    protected void close() {
+        try {
+            getTabPane().getTabs().remove(this);
+        } catch (NullPointerException ignored) {}
+        stop();
+    }
+
+    private void updateCBDatabase() {
+        cbDatabase.getItems().clear();
+        Main.RESOURCES.connections.forEach((value) -> {
+            cbDatabase.getItems().add(value);
+        });
+        cbDatabase.getSelectionModel().select(this.source);
+    }
+
     //<editor-fold desc="Context Menu">
     private class CodeContextMenu extends ContextMenu
     {
@@ -198,6 +222,7 @@ public class CodeTab extends Tab implements Resource {
     public void stop() {
         if(this.executor != null) {
             Main.RESOURCES.log.debug("Stopping highlighter for SQL");
+            Main.RESOURCES.resources.remove(this);
             executor.shutdown();
         }
     }

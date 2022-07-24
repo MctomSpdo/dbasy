@@ -4,6 +4,7 @@ import com.example.dbasy.Resources;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.Result;
 import com.example.dbasy.database.Table;
+import com.example.dbasy.ui.tab.DataBaseTab;
 import com.example.dbasy.ui.tab.code.CodeTab;
 import com.example.dbasy.ui.tab.result.ResultTab;
 import com.example.dbasy.ui.tab.table.TableTab;
@@ -21,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
@@ -222,5 +224,34 @@ public class MainController {
         var tab = new ResultTab(result);
         this.tbResults.getTabs().add(tab);
         this.tbResults.getSelectionModel().select(tab);
+    }
+
+    /**
+     * Checks trough everything to make sure that there is no Reference for a Database
+     */
+    public void UpdateDataBaseList() {
+        refreshDBTree(false);
+        checkTabs();
+    }
+
+    private void checkTabs() {
+        //copy tabs because of removing them on the same thread, giving a ConcurrentModificationException
+
+        //check main Tab Pane
+        var tabs = new ArrayList<>(this.tbMain.getTabs());
+        tabs.forEach(tab -> {
+            if(tab instanceof DataBaseTab) {
+                ((DataBaseTab) tab).check();
+            }
+        });
+
+        //check Result Tab Pane
+        var resultTabs = new ArrayList<>(this.tbResults.getTabs());
+        resultTabs.forEach(tab -> {
+            if(tab instanceof DataBaseTab) {
+                ((DataBaseTab) tab).check();
+            }
+        });
+
     }
 }
