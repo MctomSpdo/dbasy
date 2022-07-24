@@ -44,12 +44,12 @@ public abstract class DBUI {
 
         //rename Menu:
         var renameDbItem = new MenuItem("Rename");
-        renameDbItem.setOnAction((event -> UiUtil.renameDatabaseDialog(caller)));
+        renameDbItem.setOnAction(event -> UiUtil.renameDatabaseDialog(caller));
         menu.getItems().add(renameDbItem);
 
         //refresh db:
         var refreshDBItem = new MenuItem("Refresh");
-        //TODO: add logic
+        refreshDBItem.setOnAction(actionEvent -> Main.RESOURCES.controller.refreshDBTree(true));
         menu.getItems().add(refreshDBItem);
 
         //duplicate db:
