@@ -2,7 +2,6 @@ package com.example.dbasy.database.mysql;
 
 import com.example.dbasy.Main;
 import com.example.dbasy.database.*;
-import javafx.scene.control.ContextMenu;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -9,7 +9,6 @@ import com.example.dbasy.ui.tab.DataBaseTab;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -95,9 +94,7 @@ public class CodeTab extends Tab implements Resource, DataBaseTab {
 
         //add Database selector to ChoiceBox:
         updateCBDatabase();
-        cbDatabase.setOnAction((event -> {
-            setSource(cbDatabase.getValue());
-        }));
+        cbDatabase.setOnAction((event -> setSource(cbDatabase.getValue())));
     }
 
     private void loadCodeArea() {
@@ -108,7 +105,7 @@ public class CodeTab extends Tab implements Resource, DataBaseTab {
         //Number markings:
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         //ContextMenu:
-        codeArea.setContextMenu( new CodeContextMenu() );
+        codeArea.setContextMenu(new CodeContextMenu());
         codeArea.setWrapText(true);
         codeArea.setAutoHeight(true);
         codeArea.setAutoScrollOnDragDesired(true);
@@ -167,14 +164,12 @@ public class CodeTab extends Tab implements Resource, DataBaseTab {
 
     private void updateCBDatabase() {
         cbDatabase.getItems().clear();
-        Main.RESOURCES.connections.forEach((value) -> {
-            cbDatabase.getItems().add(value);
-        });
+        Main.RESOURCES.connections.forEach((value) -> cbDatabase.getItems().add(value));
         cbDatabase.getSelectionModel().select(this.source);
     }
 
     //<editor-fold desc="Context Menu">
-    private class CodeContextMenu extends ContextMenu
+    private static class CodeContextMenu extends ContextMenu
     {
         private MenuItem fold, unfold, print;
 
@@ -290,9 +285,7 @@ public class CodeTab extends Tab implements Resource, DataBaseTab {
                         //make database request and show result
                         try {
                             var result = this.source.request(finalValue);
-                            Platform.runLater(() -> {
-                                Main.getController().addResult(result);
-                            });
+                            Platform.runLater(() -> Main.getController().addResult(result));
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }

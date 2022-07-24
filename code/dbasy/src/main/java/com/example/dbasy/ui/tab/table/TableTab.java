@@ -130,9 +130,7 @@ public class TableTab extends Tab implements DataBaseTab {
                 content.add(0, this.table.getAndLoadColumnNames());
                 //copy to arraylist for javafx
                 ObservableList<String[]> data = FXCollections.observableArrayList();
-                content.forEach((value) -> {
-                    data.add(value.toArray(new String[0]));
-                });
+                content.forEach((value) -> data.add(value.toArray(new String[0])));
                 data.remove(0);//remove titles from data
                 Platform.runLater(() -> {
                     TableView<String[]> table = this.tvMain;

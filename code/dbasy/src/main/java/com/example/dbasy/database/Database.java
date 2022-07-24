@@ -80,9 +80,7 @@ public abstract class Database implements ContextItem {
      */
     public void remove() throws SQLException {
         Main.RESOURCES.connections.remove(this);
-        Platform.runLater(() -> {
-            Main.getController().UpdateDataBaseList();
-        });
+        Platform.runLater(() -> Main.getController().UpdateDataBaseList());
         close();
     }
     //</editor-fold>

@@ -84,8 +84,7 @@ public class MainController {
                 if(list.size() > 0) {
                     var item = list.get(0);
                     if(item instanceof TreeItem) {
-                        if(((TreeItem<?>) item).getValue() instanceof Table) {
-                            Table t = (Table) ((TreeItem<?>) item).getValue();
+                        if(((TreeItem<?>) item).getValue() instanceof Table t) {
                             var tab = new TableTab(t);
                             tbMain.getTabs().add(tab);
                             tbMain.getSelectionModel().select(tab);
@@ -197,9 +196,7 @@ public class MainController {
                                 } catch (SQLException e) {
                                     resources.log.error("Could not load Tables from" + database, e);
                                     //add error Tree Item:
-                                    Platform.runLater(() -> {
-                                        tablesItem.getChildren().add(UiUtil.getErrorTreeItem());
-                                    });
+                                    Platform.runLater(() -> tablesItem.getChildren().add(UiUtil.getErrorTreeItem()));
                                 }
                             })).start();
                         }

@@ -33,21 +33,17 @@ public class Main extends Application {
         //close all resources on close:
         stage.setOnCloseRequest(windowEvent -> {
             //closes resources:
-            resources.resources.forEach((resource -> {
-                (new Thread(resource::stop)).start();
-            }));
+            resources.resources.forEach((resource -> (new Thread(resource::stop)).start()));
 
             //close connections:
             var connections = resources.connections;
-            connections.forEach((database) -> {
-                (new Thread(() -> {
-                    try {
-                        database.close();
-                    } catch (SQLException e) {
-                        resources.log.error("Couldn't close db: ", e);
-                    }
-                })).start();
-            });
+            connections.forEach((database) -> (new Thread(() -> {
+                try {
+                    database.close();
+                } catch (SQLException e) {
+                    resources.log.error("Couldn't close db: ", e);
+                }
+            })).start());
         });
 
         //prepare Databases:
