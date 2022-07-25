@@ -203,6 +203,36 @@ public abstract class Database implements ContextItem {
      * @throws SQLException on error
      */
     public abstract Result request(String sql) throws SQLException;
+
+    /**
+     * Executes a SQL statement, does not give a result
+     * @param sql statement to execute
+     * @throws SQLException on error
+     */
+    public void execute(String sql) throws SQLException {
+        sql = sql.replaceAll(";", "");
+        var st = this.conn.createStatement();
+        st.execute(sql);
+        st.close();
+    }
+
+    /**
+     * Drops a given table
+     * @param table Table to drop
+     * @throws SQLException on error
+     */
+    public void dropTable(Table table) throws SQLException {
+        dropTable(table.getName());
+    }
+
+    /**
+     * drops a table that has the name given
+     * @param tableName name of the table
+     * @throws SQLException on error
+     */
+    public void dropTable(String tableName) throws SQLException {
+        execute("drop table " + tableName);
+    }
     //</editor-fold>
 
     /**

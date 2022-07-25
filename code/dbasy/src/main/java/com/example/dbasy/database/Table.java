@@ -1,6 +1,12 @@
 package com.example.dbasy.database;
 
+import com.example.dbasy.Main;
 import com.example.dbasy.database.invalid.InvalidDatabase;
+import com.example.dbasy.ui.ContextItem;
+import com.example.dbasy.ui.UiUtil;
+import javafx.application.Platform;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,7 +15,7 @@ import java.util.List;
 /**
  * Tables of a {@link com.example.dbasy.database.Database database}
  */
-public class Table extends Result {
+public class Table extends Result implements ContextItem {
     String name;
     public boolean columnsLoaded = false;
 
@@ -108,6 +114,10 @@ public class Table extends Result {
         this.columns = columns;
         this.content = content;
     }
+
+    public void drop() throws SQLException {
+        this.source.dropTable(this);
+    }
     //</editor-fold>
 
     @Override
@@ -129,5 +139,30 @@ public class Table extends Result {
                 .stream()
                 .map((tableName) -> new Table(tableName, source))
                 .toList();
+    }
+
+    @Override
+    public ContextMenu getContextMenu() {
+        var menu = new ContextMenu();
+
+        //drop table
+        var dropItem = new MenuItem("Drop");
+        dropItem.setOnAction(actionEvent -> {
+            if(UiUtil.conformationDialog("Table '" + getName() + "' will be dropped")) {
+                (new Thread(() -> {
+                    try {
+                        drop();
+                        Platform.runLater(() -> {
+                            Main.getController().refreshDBTree(true);
+                        });
+                    } catch (SQLException e) {
+                        Main.RESOURCES.log.error("Could not Drop table: " + getName() + ": ", e);
+                    }
+                })).start();
+            }
+        });
+        menu.getItems().add(dropItem);
+
+        return menu;
     }
 }
