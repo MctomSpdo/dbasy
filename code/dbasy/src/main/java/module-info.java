@@ -14,6 +14,7 @@ module com.example.dbasy {
     opens com.example.dbasy.ui.tab.code to javafx.fxml;
     opens com.example.dbasy.ui.tab.result to javafx.fxml;
     opens com.example.dbasy.ui.dialogs to javafx.fxml;
+    opens com.example.dbasy.test to javafx.fxml;
 
     exports com.example.dbasy;
 
@@ -23,4 +24,5 @@ module com.example.dbasy {
     exports com.example.dbasy.database.invalid;
     exports com.example.dbasy.database.mysql;
     exports com.example.dbasy.ui.dialogs;
+    exports com.example.dbasy.test;
 }
