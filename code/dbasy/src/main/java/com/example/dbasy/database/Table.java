@@ -1,6 +1,9 @@
 package com.example.dbasy.database;
 
 import com.example.dbasy.Main;
+import com.example.dbasy.database.exporter.ExportException;
+import com.example.dbasy.database.exporter.table.CSVTableExporter;
+import com.example.dbasy.database.exporter.table.TableExporter;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.ui.ContextItem;
 import com.example.dbasy.ui.UiUtil;
@@ -141,6 +144,10 @@ public class Table extends Result implements ContextItem {
                 .toList();
     }
 
+    public void setLoaded(boolean loaded) {
+        this.loaded = loaded;
+    }
+
     @Override
     public ContextMenu getContextMenu() {
         var menu = new ContextMenu();
@@ -162,6 +169,17 @@ public class Table extends Result implements ContextItem {
             }
         });
         menu.getItems().add(dropItem);
+
+        //export table
+        var exportItem = new MenuItem("Export");
+        exportItem.setOnAction(actionEvent -> {
+            (new Thread(() -> {
+                Platform.runLater(() -> {
+                    UiUtil.exportTableDialog(this);
+                });
+            })).start();
+        });
+        menu.getItems().add(exportItem);
 
         return menu;
     }

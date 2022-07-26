@@ -16,9 +16,11 @@ public class Main extends Application {
 
     private static MainController controller;
 
+    private static Stage mainStage;
 
     @Override
     public void start(Stage stage) throws IOException {
+        mainStage = stage;
         //start logger:
         var logger = LogManager.getLogger(Main.class);
         logger.debug("Logger started");
@@ -74,5 +76,9 @@ public class Main extends Application {
 
     public static MainController getController() {
         return controller;
+    }
+
+    public static Stage getMainStage() {
+        return mainStage;
     }
 }

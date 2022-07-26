@@ -25,4 +25,5 @@ module com.example.dbasy {
     exports com.example.dbasy.database.mysql;
     exports com.example.dbasy.ui.dialogs;
     exports com.example.dbasy.test;
+    exports com.example.dbasy.database.exporter;
 }

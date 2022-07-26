@@ -67,6 +67,7 @@ public class MySQLDatabase extends Database {
 
         table.setColumns(columnsFromResult(rs));
         table.setContent(contentFromResult(rs));
+        table.setLoaded(true);
 
         rs.close();
         pstmt.close();

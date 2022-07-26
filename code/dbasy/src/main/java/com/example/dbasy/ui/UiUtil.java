@@ -5,13 +5,16 @@ import com.example.dbasy.Resources;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.database.invalid.InvalidDatabase;
+import com.example.dbasy.file.FileUtil;
 import com.example.dbasy.ui.dialogs.ConformationDialog;
 import com.example.dbasy.ui.dialogs.ConnectDialog;
 import com.example.dbasy.ui.dialogs.RenameDatabaseDialog;
+import com.example.dbasy.ui.dialogs.TableExportDialog;
 import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -133,7 +136,32 @@ public class UiUtil {
             var dialog = new ConformationDialog(text);
             return dialog.showDialog();
         } catch (IOException e) {
-            Main.RESOURCES.log.fatal("Could not internal Files", e);
+            Main.RESOURCES.log.fatal("Could not load internal Files", e);
+        }
+        return false;
+    }
+
+    public static boolean exportTableDialog(Table table) {
+        try {
+            //show export dialog:
+            var dialog = new TableExportDialog(table);
+            var result = dialog.showDialog();
+
+            //on cancel
+            if(result == null) return false;
+
+            //show FileChooser
+            var type = result.usedExporter().getType();
+            FileChooser fc = new FileChooser();
+            fc.setInitialFileName("data." + type);
+            var filter = new FileChooser.ExtensionFilter(type + " Files", "*." + type);
+            fc.getExtensionFilters().add(filter);
+
+            var file = fc.showSaveDialog(Main.getMainStage());
+
+            FileUtil.saveString(file, result.result());
+        } catch (IOException e) {
+            Main.RESOURCES.log.fatal("Could not load file: ", e);
         }
         return false;
     }
