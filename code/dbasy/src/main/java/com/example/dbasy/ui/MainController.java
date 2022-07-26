@@ -84,7 +84,6 @@ public class MainController {
                 if(list.size() > 0) {
                     var item = list.get(0);
                     if(item instanceof TreeItem) {
-                        System.out.println(((TreeItem<?>) item).getValue().getClass());
                         if(((TreeItem<?>) item).getValue() instanceof Table t) {
                             var tab = new TableTab(t);
                             tbMain.getTabs().add(tab);
@@ -107,10 +106,8 @@ public class MainController {
         List<Object> selectedItems = this.trDatabases.getSelectionModel().getSelectedItems();
         if(selectedItems.size() > 0) {
             Object selector = selectedItems.get(0);
-            System.out.println(selector.getClass());
             if(selector instanceof TreeItem<?>) {
                 Object type = ((TreeItem<?>) selector).getValue();
-                System.out.println(type.getClass());
                 if(type instanceof ContextItem) {
                     this.trDatabases.setContextMenu(((ContextItem) type).getContextMenu());
                     return;
