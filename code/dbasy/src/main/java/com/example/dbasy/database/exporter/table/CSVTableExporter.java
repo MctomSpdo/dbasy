@@ -3,15 +3,15 @@ package com.example.dbasy.database.exporter.table;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.database.exporter.ExportException;
 import com.example.dbasy.database.exporter.Exporter;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
+import com.example.dbasy.database.exporter.ExporterRowSplitter;
+import javafx.beans.property.*;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.util.StringConverter;
 
 import java.sql.SQLException;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,7 +23,7 @@ public class CSVTableExporter implements TableExporter {
     private BooleanProperty addRowHeader = new SimpleBooleanProperty(false);
     private BooleanProperty transpose = new SimpleBooleanProperty(false);
     private Property<String> setSplitter = new SimpleStringProperty(",");
-    private Property<String> rowSplitter = new SimpleStringProperty("\n");
+    private Property<ExporterRowSplitter> rowSplitter = new SimpleObjectProperty<>(ExporterRowSplitter.ENTER);
 
     public CSVTableExporter() {
     }
@@ -53,7 +53,7 @@ public class CSVTableExporter implements TableExporter {
                             .map(rowData -> rowData + this.setSplitter.getValue())
                             .collect(Collectors.joining());
                     //remove last splitter:
-                    row = row.substring(0, row.length() - 1) + this.rowSplitter.getValue();
+                    row = row.substring(0, row.length() - 1) + this.rowSplitter.getValue().getValue();
                     //add rowHeader
                     if(this.addRowHeader.getValue()) {
                         row = rowCount.getAndIncrement() + this.setSplitter.getValue() + row;
@@ -74,7 +74,7 @@ public class CSVTableExporter implements TableExporter {
             }
             header = header.substring(0, header.length() -1);
 
-            exported = header + this.rowSplitter.getValue() + exported;
+            exported = header + this.rowSplitter.getValue().getValue() + exported;
         }
         return exported.substring(0, exported.length() -1);
     }
@@ -125,9 +125,10 @@ public class CSVTableExporter implements TableExporter {
         gridPane.add(txtSplitter, 1, 0);
 
         gridPane.add(new Label("Row Splitter"), 0, 1);
-        var txtRowSplitter = new TextField();
-        txtRowSplitter.textProperty().bindBidirectional(this.rowSplitter);
-        gridPane.add(txtRowSplitter, 1, 1);
+        var cbRowSplitter = new ChoiceBox<ExporterRowSplitter>();
+        cbRowSplitter.valueProperty().bindBidirectional(this.rowSplitter);
+        cbRowSplitter.getItems().addAll(ExporterRowSplitter.values());
+        gridPane.add(cbRowSplitter, 1, 1);
 
         box.getChildren().add(gridPane);
         return box;
