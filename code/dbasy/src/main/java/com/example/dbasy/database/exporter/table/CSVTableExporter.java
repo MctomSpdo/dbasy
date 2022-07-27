@@ -135,7 +135,7 @@ public class CSVTableExporter implements TableExporter {
     }
 
     @Override
-    public String getType() {
+    public String getFileType() {
         return "csv";
     }
 

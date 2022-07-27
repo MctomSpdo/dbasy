@@ -151,7 +151,7 @@ public class UiUtil {
             if(result == null) return false;
 
             //show FileChooser
-            var type = result.usedExporter().getType();
+            var type = result.usedExporter().getFileType();
             FileChooser fc = new FileChooser();
             fc.setInitialFileName("data." + type);
             var filter = new FileChooser.ExtensionFilter(type + " Files", "*." + type);

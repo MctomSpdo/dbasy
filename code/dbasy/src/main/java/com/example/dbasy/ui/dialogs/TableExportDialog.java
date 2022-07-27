@@ -123,10 +123,12 @@ public class TableExportDialog {
         (new Thread(() -> {
             try {
                 var text = exporter.get();
-                Platform.runLater(() -> {
-                    codeArea.clear();
-                    codeArea.insertText(0, text);
-                });
+                if(text != null) {
+                    Platform.runLater(() -> {
+                        codeArea.clear();
+                        codeArea.insertText(0, text);
+                    });
+                }
             } catch (ExportException e) {
                 //TODO show error dialog
                 e.printStackTrace();

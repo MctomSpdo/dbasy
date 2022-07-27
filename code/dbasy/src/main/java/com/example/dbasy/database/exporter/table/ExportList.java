@@ -16,5 +16,6 @@ public class ExportList {
     private static void loadTableExporter() {
         tableExporter = new ArrayList<>();
         tableExporter.add(new CSVTableExporter());
+        tableExporter.add(new ConsoleTableExporter());
     }
 }
