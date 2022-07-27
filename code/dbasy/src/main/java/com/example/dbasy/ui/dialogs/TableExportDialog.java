@@ -51,6 +51,7 @@ public class TableExportDialog {
     @FXML
     void onExporterSelection(ActionEvent event) {
         loadExporterOptions();
+        updateView();
     }
 
     @FXML
