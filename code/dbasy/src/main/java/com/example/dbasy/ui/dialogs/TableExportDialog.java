@@ -49,6 +49,11 @@ public class TableExportDialog {
     }
 
     @FXML
+    void onExporterSelection(ActionEvent event) {
+        loadExporterOptions();
+    }
+
+    @FXML
     public void initialize() {
         //set source:
         this.txtSource.setText(this.table.getSource().getDetails().name + "." + this.table.getName());
