@@ -18,5 +18,6 @@ public class ExportList {
         tableExporter.add(new CSVTableExporter());
         tableExporter.add(new ConsoleTableExporter());
         tableExporter.add(new JSONExporter());
+        tableExporter.add(new XMLExporter());
     }
 }
