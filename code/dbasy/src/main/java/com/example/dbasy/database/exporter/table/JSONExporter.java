@@ -37,7 +37,9 @@ public class JSONExporter implements TableExporter {
 
             sb.append("  },\n");
         });
-        sb.setLength(Math.max(sb.length() - 2, 0)); //remove last 2 characters
+        if(content.size() > 0) {
+            sb.setLength(Math.max(sb.length() - 2, 0)); //remove last 2 characters
+        }
         sb.append("\n");
         sb.append("]");
 
