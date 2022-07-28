@@ -15,7 +15,7 @@
    <items>
       <VBox fx:id="vbControl" prefWidth="291.0" spacing="5.0">
          <children>
-            <TextField fx:id="txtSource" editable="false" focusTraversable="false" promptText="SOURCE" text="SOURCE" />
+            <TextField fx:id="txtSource" editable="false" focusTraversable="false" pickOnBounds="false" promptText="SOURCE" text="SOURCE" />
             <GridPane>
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="136.0" minWidth="10.0" prefWidth="105.0" />
