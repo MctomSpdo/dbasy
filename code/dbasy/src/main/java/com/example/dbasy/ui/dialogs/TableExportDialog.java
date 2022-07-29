@@ -6,6 +6,7 @@ import com.example.dbasy.database.exporter.ExportException;
 import com.example.dbasy.database.exporter.ExportResult;
 import com.example.dbasy.database.exporter.table.ExportList;
 import com.example.dbasy.database.exporter.table.TableExporter;
+import com.example.dbasy.ui.component.AdvancedCodeArea;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,8 +14,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
-import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
 
 import java.io.IOException;
 
@@ -34,7 +33,7 @@ public class TableExportDialog {
     @FXML
     private VBox vbCustomContent;
 
-    CodeArea codeArea;
+    AdvancedCodeArea codeArea;
     TableExporter exporter;
 
     private Table table;
@@ -65,11 +64,8 @@ public class TableExportDialog {
         loadExporterOptions();
 
         //codeArea for displaying output:
-        this.codeArea = new CodeArea();
-        codeArea.setWrapText(true);
-        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        this.codeArea = new AdvancedCodeArea();
         codeArea.setEditable(false);
-        codeArea.setAutoHeight(true);
 
         vbPreview.getChildren().add(codeArea);
 
