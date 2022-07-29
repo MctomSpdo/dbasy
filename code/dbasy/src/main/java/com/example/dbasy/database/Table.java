@@ -93,6 +93,16 @@ public class Table extends Result implements ContextItem {
     public void setContent(List<List<String>> content) {
         this.content = content;
     }
+
+    public List<Key> getKeys () {
+        var list = new ArrayList<Key>();
+        var columns = getColumns();
+        columns.forEach(value -> {
+            list.addAll(value.keys);
+        });
+
+        return list;
+    }
     //</editor-fold>
 
     //<editor-fold desc="loaders">

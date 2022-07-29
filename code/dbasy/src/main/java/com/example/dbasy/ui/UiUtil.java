@@ -3,6 +3,7 @@ package com.example.dbasy.ui;
 import com.example.dbasy.Main;
 import com.example.dbasy.Resources;
 import com.example.dbasy.database.Database;
+import com.example.dbasy.database.Key;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.file.FileUtil;
@@ -54,7 +55,7 @@ public class UiUtil {
 
     public static TreeItem getColumnTreeItem(Table table) {
         var columnsItem = new TreeItem<>("columns");
-        columnsItem.getChildren().add(UiUtil.getLoadingTreeItem());
+        columnsItem.getChildren().add(getLoadingTreeItem());
         columnsItem.expandedProperty().addListener((observableValue1, aBoolean1, t11) -> {
             if(t11) {
                 var firstColumnItem = columnsItem.getChildren().get(0);
@@ -80,6 +81,33 @@ public class UiUtil {
         //set icon:
         columnsItem.setGraphic(getSizedImage(IconLoader.getFolder()));
         return columnsItem;
+    }
+
+    public static TreeItem getKeyTreeItem(Table table) {
+        var keyItem = new TreeItem<>("keys");
+        keyItem.setGraphic(getSizedImage(IconLoader.getFolder()));
+        keyItem.getChildren().add(getLoadingTreeItem());
+
+        keyItem.expandedProperty().addListener((observableValue1, aBoolean1, t11) -> {
+            if(t11) {
+                var firstColumnItem = keyItem.getChildren().get(0);
+                if(firstColumnItem != null || firstColumnItem.getValue() instanceof String) {
+                    keyItem.getChildren().clear();
+                    (new Thread(() -> {
+                        var keys = table.getKeys();
+
+                        keys.forEach(value -> {
+                            var item = new TreeItem(value);
+                            Platform.runLater(() -> {
+                                keyItem.getChildren().add(item);
+                            });
+                        });
+                    })).start();
+                }
+            }
+        });
+
+        return keyItem;
     }
 
     public static ImageView getSizedImage(Image image) {

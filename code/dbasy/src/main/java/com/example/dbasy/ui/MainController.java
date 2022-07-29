@@ -189,7 +189,8 @@ public class MainController {
 
                                             //children of database table:
                                             var columnsItem = UiUtil.getColumnTreeItem(table);
-                                            tableItem.getChildren().add(columnsItem);
+                                            var keyItem = UiUtil.getKeyTreeItem(table);
+                                            tableItem.getChildren().addAll(columnsItem, keyItem);
                                         }));
                                     });
                                 } catch (SQLException e) {

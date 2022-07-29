@@ -23,4 +23,9 @@ public class Key {
         this.references = references;
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return this.parent.name;
+    }
 }
