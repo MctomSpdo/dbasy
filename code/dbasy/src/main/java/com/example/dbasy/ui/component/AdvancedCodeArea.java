@@ -3,7 +3,6 @@ package com.example.dbasy.ui.component;
 import com.example.dbasy.Main;
 import com.example.dbasy.Resource;
 import javafx.concurrent.Task;
-import javafx.scene.Scene;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import org.fxmisc.richtext.CodeArea;
