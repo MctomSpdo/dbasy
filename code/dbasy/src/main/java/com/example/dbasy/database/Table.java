@@ -97,10 +97,11 @@ public class Table extends Result implements ContextItem {
     public List<Key> getKeys () {
         var list = new ArrayList<Key>();
         var columns = getColumns();
-        columns.forEach(value -> {
-            list.addAll(value.keys);
-        });
-
+        if(columns != null) {
+            columns.forEach(value -> {
+                list.addAll(value.keys);
+            });
+        }
         return list;
     }
     //</editor-fold>
