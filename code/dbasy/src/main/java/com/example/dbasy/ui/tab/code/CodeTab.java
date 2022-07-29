@@ -5,6 +5,7 @@ import com.example.dbasy.Resource;
 import com.example.dbasy.database.Database;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.ui.UiUtil;
+import com.example.dbasy.ui.component.AdvancedCodeArea;
 import com.example.dbasy.ui.tab.DataBaseTab;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -39,11 +40,9 @@ public class CodeTab extends Tab implements Resource, DataBaseTab {
     @FXML
     private ChoiceBox<Database> cbDatabase;
 
-    private CodeArea codeArea;
+    private AdvancedCodeArea codeArea;
 
     private Database source;
-
-    private ExecutorService executor;
 
     @FXML
     public void initialize() {
@@ -94,46 +93,18 @@ public class CodeTab extends Tab implements Resource, DataBaseTab {
 
         //add Database selector to ChoiceBox:
         updateCBDatabase();
-        cbDatabase.setOnAction((event -> setSource(cbDatabase.getValue())));
+        cbDatabase.setOnAction(event -> setSource(cbDatabase.getValue()));
     }
 
     private void loadCodeArea() {
         if(this.codeArea != null) {
             root.getChildren().remove(this.codeArea);
         }
-        var codeArea = new CodeArea();
-        //Number markings:
-        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
-        //ContextMenu:
-        codeArea.setContextMenu(new CodeContextMenu());
-        codeArea.setWrapText(true);
-        codeArea.setAutoHeight(true);
-        codeArea.setAutoScrollOnDragDesired(true);
-
-        //code highlighting:
-        Main.RESOURCES.log.debug("Starting highlighter for SQL");
-        this.executor = Executors.newSingleThreadExecutor();
-
-        Subscription cleanupWhenDone = codeArea.multiPlainChanges()
-                .successionEnds(Duration.ofMillis(500))
-                .retainLatestUntilLater(executor)
-                .supplyTask(this::computeHighlightingAsync)
-                .awaitLatest(codeArea.multiPlainChanges())
-                .filterMap(t -> {
-                    if(t.isSuccess()) {
-                        return Optional.of(t.get());
-                    } else {
-                        t.getFailure().printStackTrace();
-                        return Optional.empty();
-                    }
-                })
-                .subscribe(this::applyHighlighting);
-
-        //add to Resources for closing:
-        Main.RESOURCES.resources.add(this);
+        var pattern = this.source.getUI().getPattern();
+        var codeArea = new AdvancedCodeArea(pattern);
 
         //stop highlighting when closing the tab
-        setOnClosed((event) -> {
+        setOnClosed(event -> {
             Main.RESOURCES.resources.remove(this);
             this.stop();
         });
@@ -152,7 +123,6 @@ public class CodeTab extends Tab implements Resource, DataBaseTab {
         } else {
             updateCBDatabase();
         }
-
     }
 
     protected void close() {
@@ -168,101 +138,13 @@ public class CodeTab extends Tab implements Resource, DataBaseTab {
         cbDatabase.getSelectionModel().select(this.source);
     }
 
-    //<editor-fold desc="Context Menu">
-    private static class CodeContextMenu extends ContextMenu
-    {
-        private MenuItem fold, unfold, print;
-
-        public CodeContextMenu()
-        {
-            fold = new MenuItem( "Fold selected text" );
-            fold.setOnAction( AE -> { hide(); fold(); } );
-
-            unfold = new MenuItem( "Unfold from cursor" );
-            unfold.setOnAction( AE -> { hide(); unfold(); } );
-
-            print = new MenuItem( "Print" );
-            print.setOnAction( AE -> { hide(); print(); } );
-
-            getItems().addAll( fold, unfold, print );
-        }
-
-        /**
-         * Folds multiple lines of selected text, only showing the first line and hiding the rest.
-         */
-        private void fold() {
-            ((CodeArea) getOwnerNode()).foldSelectedParagraphs();
-        }
-
-        /**
-         * Unfold the CURRENT line/paragraph if it has a fold.
-         */
-        private void unfold() {
-            CodeArea area = (CodeArea) getOwnerNode();
-            area.unfoldParagraphs( area.getCurrentParagraph() );
-        }
-
-        private void print() {
-            System.out.println( ((CodeArea) getOwnerNode()).getText() );
-        }
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="Highlighting">
-
     /**
-     * Stops the highlighter from working
+     * Stops all the Resources in the Tab
      */
     @Override
     public void stop() {
-        if(this.executor != null) {
-            Main.RESOURCES.log.debug("Stopping highlighter for SQL");
-            Main.RESOURCES.resources.remove(this);
-            executor.shutdown();
-        }
+        this.codeArea.stop();
     }
-
-    private Task<StyleSpans<Collection<String>>> computeHighlightingAsync() {
-        var text = this.codeArea.getText();
-        Task<StyleSpans<Collection<String>>> task = new Task<>() {
-            @Override
-            protected StyleSpans<Collection<String>> call() {
-                return computeHighlighting(text);
-            }
-        };
-        executor.execute(task);
-        return task;
-    }
-
-    private void applyHighlighting(StyleSpans<Collection<String>> highlighting) {
-        this.codeArea.setStyleSpans(0, highlighting);
-    }
-
-
-    private StyleSpans<Collection<String>> computeHighlighting(String text) {
-        text = text.toUpperCase(Locale.ROOT);
-        var matcher = source.getUI().getPattern().matcher(text);
-        int lastKwEnd = 0;
-        StyleSpansBuilder<Collection<String>> spansBuilder
-                = new StyleSpansBuilder<>();
-        while(matcher.find()) {
-            String styleClass =
-                    matcher.group("KEYWORD") != null ? "keyword" :
-                            matcher.group("FUNCTION") != null ? "function" :
-                                    matcher.group("BRACE") != null ? "brace" :
-                                            matcher.group("BRACKET") != null ? "bracket" :
-                                                    matcher.group("SEMICOLON") != null ? "semicolon" :
-                                                            matcher.group("STRING") != null ? "string" :
-                                                                    matcher.group("COMMENT") != null ? "comment" :
-                                                                            null; /* never happens */ assert styleClass != null;
-            spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
-            spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
-            lastKwEnd = matcher.end();
-        }
-        spansBuilder.add(Collections.emptyList(), text.length() - lastKwEnd);
-        return spansBuilder.create();
-    }
-    //</editor-fold>
 
     public void handleKeyInputs(KeyEvent event) {
         if(event.isControlDown()) {
