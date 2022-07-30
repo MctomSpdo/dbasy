@@ -13,6 +13,7 @@
          <children>
             <ChoiceBox fx:id="cbRows" prefWidth="100.0" />
             <Button fx:id="btReload" mnemonicParsing="false" onAction="#btReloadHandler" text="Reload" />
+            <Button mnemonicParsing="false" onAction="#btExportAction" text="Export" />
             <Button fx:id="btRemove" disable="true" mnemonicParsing="false" onAction="#btRemoveHandler" text="Remove" />
             <Button fx:id="btAdd" disable="true" mnemonicParsing="false" onAction="#btAddHandler" text="Add" />
             <Button disable="true" mnemonicParsing="false" onAction="#btCommitHandler" text="Commit" />

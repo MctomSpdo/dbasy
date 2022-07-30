@@ -69,6 +69,15 @@ public class TableTab extends Tab implements DataBaseTab {
     }
 
     @FXML
+    void btExportAction(ActionEvent event) {
+        (new Thread(() -> {
+            Platform.runLater(() -> {
+                UiUtil.exportTableDialog(this.table);
+            });
+        })).start();
+    }
+
+    @FXML
     void btRemoveHandler(ActionEvent event) {
 
     }
