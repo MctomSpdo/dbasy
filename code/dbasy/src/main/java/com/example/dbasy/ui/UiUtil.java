@@ -98,6 +98,7 @@ public class UiUtil {
 
                         keys.forEach(value -> {
                             var item = new TreeItem(value);
+                            item.setGraphic(UiUtil.getSizedImage(IconLoader.getKey()));
                             Platform.runLater(() -> {
                                 keyItem.getChildren().add(item);
                             });

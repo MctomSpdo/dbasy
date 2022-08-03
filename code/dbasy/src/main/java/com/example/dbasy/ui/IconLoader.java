@@ -64,4 +64,13 @@ public class IconLoader {
         }
         return console;
     }
+
+    private static Image key = null;
+
+    public static Image getKey() {
+        if(key == null) {
+            key = new Image(String.valueOf(IconLoader.class.getResource("icons/key.png")));
+        }
+        return key;
+    }
 }
