@@ -29,7 +29,7 @@ public class JSONExporter implements TableExporter {
 
             for(int i = 0; i < headers.size(); i++) {
                 var name = headers.get(i);
-                var data = value.get(i);
+                var data = value.get(i).replaceAll("\"", "\\\"");
 
                 sb.append("    \"").append(name).append("\": \"").append(data).append("\"");
                 sb.append((i + 1 < headers.size()) ? ",\n" : "\n");
