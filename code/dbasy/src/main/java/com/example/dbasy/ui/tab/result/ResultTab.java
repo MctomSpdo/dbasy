@@ -47,6 +47,7 @@ public class ResultTab extends Tab implements DataBaseTab {
     public void initialize() {
         this.tvMain.setEditable(true);
         this.cbRows.setDisable(true);
+        this.btReload.setGraphic(UiUtil.getSizedImage(IconLoader.getReload()));
         //load table content
         loadContent();
     }

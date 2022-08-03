@@ -73,4 +73,13 @@ public class IconLoader {
         }
         return key;
     }
+
+    private static Image reload = null;
+
+    public static Image getReload() {
+        if(reload == null) {
+            reload = new Image(String.valueOf(IconLoader.class.getResource("icons/reload.png")));
+        }
+        return reload;
+    }
 }

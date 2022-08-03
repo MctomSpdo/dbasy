@@ -7,12 +7,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="5.0">
          <children>
             <ChoiceBox fx:id="cbRows" prefWidth="100.0" />
-            <Button fx:id="btReload" mnemonicParsing="false" onAction="#btReloadHandler" text="Reload" />
+            <Button fx:id="btReload" mnemonicParsing="false" onAction="#btReloadHandler" />
             <Button mnemonicParsing="false" onAction="#btExportAction" text="Export" />
             <Button fx:id="btRemove" disable="true" mnemonicParsing="false" onAction="#btRemoveHandler" text="Remove" />
             <Button fx:id="btAdd" disable="true" mnemonicParsing="false" onAction="#btAddHandler" text="Add" />

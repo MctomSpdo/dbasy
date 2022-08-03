@@ -50,6 +50,8 @@ public class TableTab extends Tab implements DataBaseTab {
         initCbRows();
         //load table content
         loadContent();
+
+        btReload.setGraphic(UiUtil.getSizedImage(IconLoader.getReload()));
     }
 
     @FXML
