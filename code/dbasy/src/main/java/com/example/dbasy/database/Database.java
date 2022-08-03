@@ -106,6 +106,9 @@ public abstract class Database implements ContextItem {
             String catalog = tables.getString("TABLE_CAT");
             String schema = tables.getString("TABLE_SCHEM");
             String tableName = tables.getString("TABLE_NAME");
+            if(!catalog.equals(this.details.database)) {
+                continue;
+            }
             var table = new Table(tableName, this);
 
             //primary key columns:
