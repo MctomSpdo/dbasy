@@ -51,7 +51,7 @@ public class IconLoader {
 
     public static Image getWarningFull() {
         if(warningFull == null) {
-            warningFull = new Image(String.valueOf(IconLoader.class.getResource("icons/warning.png")));
+            warningFull = new Image(String.valueOf(IconLoader.class.getResource("icons/warning_full.png")));
         }
         return warningFull;
     }
