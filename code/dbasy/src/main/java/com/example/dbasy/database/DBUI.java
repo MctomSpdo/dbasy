@@ -1,6 +1,7 @@
 package com.example.dbasy.database;
 
 import com.example.dbasy.Main;
+import com.example.dbasy.ui.IconLoader;
 import com.example.dbasy.ui.UiUtil;
 import javafx.application.Platform;
 import javafx.scene.control.ContextMenu;
@@ -129,6 +130,7 @@ public abstract class DBUI {
         //new query console and separator:
         var consoleItem = new MenuItem("query console");
         consoleItem.setOnAction((actionEvent) -> Main.getController().newCodeTab(caller));
+        consoleItem.setGraphic(UiUtil.getSizedImage(IconLoader.getConsoleItem()));
         menu.getItems().addAll(consoleItem, new SeparatorMenuItem());
 
         //<editor-fold desc="inside DB">

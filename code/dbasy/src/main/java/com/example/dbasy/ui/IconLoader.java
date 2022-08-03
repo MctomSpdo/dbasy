@@ -55,4 +55,13 @@ public class IconLoader {
         }
         return warningFull;
     }
+
+    private static Image console = null;
+
+    public static Image getConsoleItem() {
+        if(console == null) {
+            console = new Image(String.valueOf(IconLoader.class.getResource("icons/console.png")));
+        }
+        return console;
+    }
 }
