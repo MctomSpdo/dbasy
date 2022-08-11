@@ -170,6 +170,11 @@ public class UiUtil {
         return false;
     }
 
+    /**
+     * Shows the File Export dialog
+     * @param table table to show the dialog to
+     * @return true on success, false otherwise
+     */
     public static boolean exportTableDialog(Table table) {
         try {
             //show export dialog:
@@ -188,7 +193,14 @@ public class UiUtil {
 
             var file = fc.showSaveDialog(Main.getMainStage());
 
+
+            //cancel if user presses cancel on file select
+            if(file == null) {
+                return false;
+            }
+
             FileUtil.saveString(file, result.result());
+            return true;
         } catch (IOException e) {
             Main.RESOURCES.log.fatal("Could not load file: ", e);
         }
