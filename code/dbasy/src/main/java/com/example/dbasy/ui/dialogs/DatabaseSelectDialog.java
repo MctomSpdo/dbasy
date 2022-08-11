@@ -23,6 +23,7 @@ public class DatabaseSelectDialog {
 
     public Database showDialog(String labelText) throws IOException {
         var dialog = getDialog();
+        btText.setText(labelText);
         dialog.showAndWait();
         return dialog.getResult();
     }
