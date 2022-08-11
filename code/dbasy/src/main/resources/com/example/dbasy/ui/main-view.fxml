@@ -27,6 +27,7 @@
             <Menu mnemonicParsing="false" text="View">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#viewRefreshTree" text="Refresh Tree" />
+                  <MenuItem mnemonicParsing="false" onAction="#addNewConsole" text="Add Console" />
               </items>
             </Menu>
                 <Menu mnemonicParsing="false" text="Edit">

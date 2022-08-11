@@ -7,10 +7,7 @@ import com.example.dbasy.database.Key;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.file.FileUtil;
-import com.example.dbasy.ui.dialogs.ConformationDialog;
-import com.example.dbasy.ui.dialogs.ConnectDialog;
-import com.example.dbasy.ui.dialogs.RenameDatabaseDialog;
-import com.example.dbasy.ui.dialogs.TableExportDialog;
+import com.example.dbasy.ui.dialogs.*;
 import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
@@ -205,5 +202,15 @@ public class UiUtil {
             Main.RESOURCES.log.fatal("Could not load file: ", e);
         }
         return false;
+    }
+
+    public static Database selectDatabaseDialog(String labelText) {
+        var dialog = new DatabaseSelectDialog();
+        try {
+            return dialog.showDialog(labelText);
+        } catch (IOException e) {
+            Main.RESOURCES.log.fatal("Could not load file: ", e);
+        }
+        return null;
     }
 }
