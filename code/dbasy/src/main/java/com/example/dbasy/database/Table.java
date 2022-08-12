@@ -4,6 +4,7 @@ import com.example.dbasy.Main;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.ui.ContextItem;
 import com.example.dbasy.ui.UiUtil;
+import com.example.dbasy.ui.dialogs.DialogUtil;
 import javafx.application.Platform;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -129,6 +130,17 @@ public class Table extends Result implements ContextItem {
     public void drop() throws SQLException {
         this.source.dropTable(this);
     }
+
+    public boolean rename(String newName) {
+        try {
+            this.source.renameTable(this, newName);
+            this.name = newName;
+            return true;
+        } catch (SQLException e) {
+            Main.RESOURCES.log.error("Could not rename Table", e);
+        }
+        return false;
+    }
     //</editor-fold>
 
     @Override
@@ -159,6 +171,17 @@ public class Table extends Result implements ContextItem {
     @Override
     public ContextMenu getContextMenu() {
         var menu = new ContextMenu();
+
+        //rename table
+        var renameItem = new MenuItem("Rename");
+        renameItem.setOnAction(actionEvent -> {
+            var newName = DialogUtil.renameDialog("Rename Table '" + this.name + "' to: ", this.name);
+            if(newName != null) {
+                rename(newName);
+                Main.getController().refreshDBTree(false);
+            }
+        });
+        menu.getItems().add(renameItem);
 
         //drop table
         var dropItem = new MenuItem("Drop");

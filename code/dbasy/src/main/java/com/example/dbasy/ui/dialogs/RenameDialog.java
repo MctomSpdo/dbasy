@@ -1,6 +1,5 @@
 package com.example.dbasy.ui.dialogs;
 
-import com.example.dbasy.database.Database;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,34 +7,27 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 
-public class RenameDatabaseDialog {
+public class RenameDialog {
+
     @FXML
     private Label btText;
 
     @FXML
     private TextField txtName;
 
-    Database db;
-
     @FXML
     public void initialize() {
-        this.txtName.setText(this.db.getDetails().name);
-        this.btText.setText("Rename '" + this.db.getDetails().name + "' to: ");
+        this.txtName.setText(oldName);
     }
 
-    public RenameDatabaseDialog(Database db) {
-        this.db = db;
-    }
+    private String oldName;
 
-    public boolean showDialog() throws IOException {
+    public String showDialog(String labelText, String oldName) throws IOException {
         var dialog = getDialog();
+        this.oldName = oldName;
+        btText.setText(labelText);
         dialog.showAndWait();
-        var result = dialog.getResult();
-        if(result != null && !result.equals("")) {
-            this.db.setName(result);
-            return true;
-        }
-        return false;
+        return dialog.getResult();
     }
 
     private Dialog<String> getDialog() throws IOException {
@@ -44,15 +36,15 @@ public class RenameDatabaseDialog {
         //create pane:
         var pane = new DialogPane();
 
-        //add Buttons:
+        //add Buttons
         var btSave = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
-        var btCancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        pane.getButtonTypes().addAll(btSave, btCancel);
+        var btCacnel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        pane.getButtonTypes().addAll(btSave, btCacnel);
 
         pane.getButtonTypes().sorted();
 
         //load root node from fxml
-        var fxmlLoader = new FXMLLoader(RenameDatabaseDialog.class.getResource("rename-view.fxml"));
+        var fxmlLoader = new FXMLLoader(RenameDialog.class.getResource("rename-view.fxml"));
         fxmlLoader.setController(this);
         var scene = new Scene(fxmlLoader.load());
         var root = scene.getRoot();
@@ -61,12 +53,11 @@ public class RenameDatabaseDialog {
         dialog.setDialogPane(pane);
 
         dialog.setResultConverter((buttonType -> {
-            if(buttonType == btCancel) {
+            if(buttonType == btCacnel) {
                 return null;
             }
             return this.txtName.getText();
         }));
-
 
         return dialog;
     }

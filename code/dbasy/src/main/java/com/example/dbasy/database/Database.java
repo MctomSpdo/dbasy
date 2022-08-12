@@ -236,6 +236,30 @@ public abstract class Database implements ContextItem {
     public void dropTable(String tableName) throws SQLException {
         execute("drop table " + tableName);
     }
+
+    /**
+     * Renames a table to a given String
+     * @param tableName current Name
+     * @param newName new name
+     * @throws SQLException on error
+     */
+    public void renameTable(String tableName, String newName) throws SQLException {
+        execute("alter table " + tableName + " rename " + newName);
+    }
+
+    /**
+     * Renames a table
+     * @param table table to rename
+     * @param newName new name
+     * @throws SQLException on error
+     * @throws IllegalArgumentException if the source of the table isn't from this database
+     */
+    public void renameTable(Table table, String newName) throws SQLException {
+        if(!table.source.equals(this)) {
+            throw new IllegalArgumentException("The source of the table has to be the same as the current database!");
+        }
+        renameTable(table.getName(), newName);
+    }
     //</editor-fold>
 
     /**
