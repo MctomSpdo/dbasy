@@ -58,6 +58,18 @@ public class MainController {
     }
 
     /**
+     * Add a new Console for a selected Database
+     * @param event ActionEvent
+     */
+    @FXML
+    void addNewConsole(ActionEvent event) {
+        var db = UiUtil.selectDatabaseDialog("Select Database for Console");
+        if(db != null) {
+            newCodeTab(db);
+        }
+    }
+
+    /**
      * Connection Menu for adding new Connection
      * @param event ActionEvent
      */

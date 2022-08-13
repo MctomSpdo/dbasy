@@ -7,10 +7,7 @@ import com.example.dbasy.database.Key;
 import com.example.dbasy.database.Table;
 import com.example.dbasy.database.invalid.InvalidDatabase;
 import com.example.dbasy.file.FileUtil;
-import com.example.dbasy.ui.dialogs.ConformationDialog;
-import com.example.dbasy.ui.dialogs.ConnectDialog;
-import com.example.dbasy.ui.dialogs.RenameDatabaseDialog;
-import com.example.dbasy.ui.dialogs.TableExportDialog;
+import com.example.dbasy.ui.dialogs.*;
 import javafx.application.Platform;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
@@ -170,6 +167,11 @@ public class UiUtil {
         return false;
     }
 
+    /**
+     * Shows the File Export dialog
+     * @param table table to show the dialog to
+     * @return true on success, false otherwise
+     */
     public static boolean exportTableDialog(Table table) {
         try {
             //show export dialog:
@@ -188,10 +190,27 @@ public class UiUtil {
 
             var file = fc.showSaveDialog(Main.getMainStage());
 
+
+            //cancel if user presses cancel on file select
+            if(file == null) {
+                return false;
+            }
+
             FileUtil.saveString(file, result.result());
+            return true;
         } catch (IOException e) {
             Main.RESOURCES.log.fatal("Could not load file: ", e);
         }
         return false;
+    }
+
+    public static Database selectDatabaseDialog(String labelText) {
+        var dialog = new DatabaseSelectDialog();
+        try {
+            return dialog.showDialog(labelText);
+        } catch (IOException e) {
+            Main.RESOURCES.log.fatal("Could not load file: ", e);
+        }
+        return null;
     }
 }

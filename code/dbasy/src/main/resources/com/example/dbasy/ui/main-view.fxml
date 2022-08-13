@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="root" alignment="TOP_CENTER" minHeight="600.0" minWidth="900.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="root" alignment="TOP_CENTER" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <MenuBar fx:id="mbMain">
             <menus>
@@ -27,6 +27,7 @@
             <Menu mnemonicParsing="false" text="View">
               <items>
                 <MenuItem mnemonicParsing="false" onAction="#viewRefreshTree" text="Refresh Tree" />
+                  <MenuItem mnemonicParsing="false" onAction="#addNewConsole" text="Add Console" />
               </items>
             </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
